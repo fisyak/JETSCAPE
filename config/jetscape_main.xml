@@ -203,6 +203,7 @@
     <filename>Gluon</filename> <!-- File name for the gluon distribution, used in the Lbt module -->
     <enter_temp>0.15</enter_temp>
     <enter_pid> 21 </enter_pid>
+    <OneScatter> 1 </OneScatter>
     </Lbt>
 
     <Martini>

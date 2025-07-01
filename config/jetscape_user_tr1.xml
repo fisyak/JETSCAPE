@@ -85,9 +85,10 @@
       <hydro_Tc> 0.16 </hydro_Tc>
       <alphas> 0.2 </alphas>
       <run_alphas>1</run_alphas>   
-    <filename>Gluon</filename> <!-- File name for the gluon distribution, used in the Lbt module -->
+    <filename>GluonRunAlphaSMod</filename> <!-- File name for the gluon distribution, used in the Lbt module -->
     <enter_temp>0.3</enter_temp>
     <enter_pid> 21 </enter_pid>
+    <OneScatter> 0 </OneScatter>
     </Lbt>
 
   </Eloss>
