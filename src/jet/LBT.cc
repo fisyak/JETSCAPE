@@ -994,7 +994,7 @@ void LBT::LBT0(int &n, double &ti) {
             //...Debye Mass square
             qhat0 = DebyeMass2(Kqhat0, alphas, temp0);
             if (ModificationFactor > 0.0){
-              ModificationCorr = 1.0 + 1.0 / ModificationFactor / T;
+              ModificationCorr = 1.0 + 1.0 / ModificationFactor / temp0;
               qhat0 /= pow(ModificationCorr, 2.0);
             }
 
