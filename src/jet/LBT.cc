@@ -878,7 +878,7 @@ void LBT::LBT0(int &n, double &ti) {
 
           qhat00 = DebyeMass2(Kqhat0, alphas, temp00);
           if (ModificationFactor > 0.0){
-            ModificationCorr = 1.0 + 1.0 / ModificationFactor / T;
+            ModificationCorr = 1.0 + 1.0 / ModificationFactor / temp00;
             qhat00 /= pow(ModificationCorr, 2.0);
           }
           fraction0 = 1.0;
