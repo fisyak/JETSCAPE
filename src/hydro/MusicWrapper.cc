@@ -75,6 +75,8 @@ void MpiMusic::InitializeHydro(Parameter parameter_list) {
     music_hydro_ptr->set_parameter("output_evolution_every_N_timesteps",
       GetXMLElementInt({"Hydro", "MUSIC", "output_evolution_every_N_timesteps"})
     );
+  } else {
+    music_hydro_ptr->set_parameter("store_hydro_info_in_memory", 0);
   }
 
   double tau_hydro = (
