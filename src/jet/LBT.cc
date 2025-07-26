@@ -83,12 +83,27 @@ LBT::LBT() {
 }
 
 LBT::~LBT() { VERBOSE(8); }
-/*
+/*void LBT::RadiationTest(){
+  std::ofstream filer;
+  filer.open("Radiation.txt");
+  for (int i = 0; i < t_gn; i++){
+    int time_num = i;
+    for (int j = 0; j < HQener_gn; j++){
+      int HQenergy_num = j;
+      for (int k = 0; k < temp_gn; k++){
+        int temp_num = k;
+        filer << i << " " << j << " " << k << " " << dNg_over_dt_g[time_num][temp_num][HQenergy_num] << " "<<dNg_over_dt_q[time_num][temp_num][HQenergy_num] << "\n";
+    }
+  }
+}
+  filer.close();
+}
+
 void LBT::TestTwoScattering(){
   std::ofstream filer;
-  ModificationFactor = 6.24;
+  ModificationFactor = 9.27;
   int num_processes= 10000;
-  int time_step = 1000;
+  int time_step = 10000;
   double p0temp[4];
   double p1[4];
   double p2[4];
@@ -110,12 +125,13 @@ void LBT::TestTwoScattering(){
   int CT;
   double qt = 0.0;
   double qhat0_ = 0.0; 
-  std::string name = filename + std::to_string(100) + ".txt";
+  alphas = 0.3;
+  std::string name = filename + ".txt";
   filer.open(name);
-  for (int u_ = 0; u_ < 25; u_++){
-    Temperature = 0.12 + u_ * 0.02;
+  for (int u_ = 1; u_ <= 3; u_++){
+    Temperature = 0.1 + u_ * 0.1;
     ModificationCorr = 1.0 + 1.0 / ModificationFactor / Temperature;
-    for (int k = 19; k< 20; k++){
+    for (int k = 0; k< 40; k++){
       double energy = 5.0 + k * 5.0;
       for(int i=0;i<num_processes;i++){
         //JSINFO<<"Event "<<i<<", Temperature = "<<Temperature<<", energy = "<<energy;
@@ -144,7 +160,16 @@ void LBT::TestTwoScattering(){
           PLen = sqrt(p1[1] * p1[1] + p1[2] * p1[2] + p1[3] * p1[3]);
           lam(pid1, RTE, PLen, Temperature, T1, T2, E1, E2, iT1, iT2, iE1,
             iE2);
-          probCol = 1.0 * 0.1 * RTE;// / 0.1970;
+          scaleMu2 = 2.0*PLen*Temperature;
+          if(scaleMu2 < 1.0) {
+                scaleMu2 = 1.0;
+                runAlphas = alphas;
+            } else {
+                double lambdaQCD2 = exp(-4.0*pi/9.0/alphas);
+                runAlphas = 4.0*pi/9.0/log(scaleMu2/lambdaQCD2);
+            }
+          runKT = runAlphas/0.3;
+          probCol = 1.0 * 0.1 * RTE * runKT;// / 0.1970;
           probCol = (1.0 - exp(-probCol));
           if (ZeroOneDistribution(*GetMt19937Generator()) < probCol){
               num_scatter++;
@@ -178,7 +203,8 @@ void LBT::TestTwoScattering(){
   }
   filer.close();   
 }  
-
+*/
+/*
 void LBT::TestQhatMod(){
         std::ofstream filer;
         std::string name = filename + "QhatMod.txt";
@@ -354,6 +380,8 @@ void LBT::WriteTask(weak_ptr<JetScapeWriter> w) {
 void LBT::DoEnergyLoss(double deltaT, double time, double Q2,
                        vector<Parton> &pIn, vector<Parton> &pOut) {
   //TestQhatMod();
+  //exit(1);
+  //RadiationTest();
   //exit(1);
   double z = 0.5;
 
@@ -1048,6 +1076,11 @@ void LBT::LBT0(int &n, double &ti) {
         pc0[2] = P[2][i];
         pc0[3] = P[3][i];
         pc0[0] = P[0][i];
+        double Vitual = pc0[0] * pc0[0] - (pc0[1] * pc0[1] + pc0[2] * pc0[2] +
+                                      pc0[3] * pc0[3]);
+        if (Vitual < 0.0) {JSWARN << "Negative virtuality: " << Vitual;
+        }
+
         trans(vc0, pc0);
         E = pc0[0]; //  p4-the initial 4-momentum of the jet parton in the local rest frame
         PLen = sqrt(pc0[1] * pc0[1] + pc0[2] * pc0[2] + pc0[3] * pc0[3]);
@@ -1071,10 +1104,13 @@ void LBT::LBT0(int &n, double &ti) {
                 runAlphas = 4.0*pi/9.0/log(scaleMu2/lambdaQCD2);
             }
             runKT = runAlphas/0.3;
-            runLog = log(scaleMu2/6.0/pi/T/T/alphas)/fixedLog;
+            
             if (ModificationFactor > 0.0){
               ModificationCorr = 1.0 + 1.0 / ModificationFactor / T;
               runLog = log(scaleMu2 * pow(ModificationCorr, 2.0) /6.0/pi/T/T/alphas)/fixedLog;
+            }
+            else{
+              runLog = log(scaleMu2/6.0/pi/T/T/alphas)/fixedLog;
             }
         }    
 
@@ -1096,9 +1132,9 @@ void LBT::LBT0(int &n, double &ti) {
             ModificationCorr = 1.0 + 1.0 / ModificationFactor / T;
             fixedLog = log(5.7*E/4.0/6.0/pi/0.3/T);
             if (KATTC0 == 21) {
-              runLog = log(1.56 * E * pow(ModificationCorr, 2.0) /4.0/6.0/pi/0.3/T) / fixedLog;
+              runLog = log(5.6 * E * pow(ModificationCorr, 1.0) /4.0/6.0/pi/0.3/T) / fixedLog;
             } else {
-              runLog = log(0.89 * E * pow(ModificationCorr, 2.0) /4.0/6.0/pi/0.3/T) / fixedLog;
+              runLog = log(5.8 * E * pow(ModificationCorr, 1.0) /4.0/6.0/pi/0.3/T) / fixedLog;
             }
             Kfactor *= runLog; // K factor for qhat
           }
@@ -1722,8 +1758,11 @@ void LBT::read_tables() { // intialize various tables for LBT
     ifstream f12("LBT-tables/dNg_over_dt_cD6.dat");
     ifstream f13("LBT-tables/dNg_over_dt_qD6.dat");
     ifstream f14("LBT-tables/dNg_over_dt_gD6.dat");
-    if (!f12.is_open() || !f13.is_open() || !f14.is_open()) {
+    ifstream f15("LBT-tables/dNg_over_dt_qD7.dat");
+    ifstream f16("LBT-tables/dNg_over_dt_gD7.dat");
+    if (!f12.is_open() || !f13.is_open() || !f14.is_open()||!f15.is_open() || !f16.is_open()) {
       cout << "Erro openning HQ radiation table file!\n";
+      exit(EXIT_FAILURE);
     } else {
       for (int k = 1; k <= t_gn; k++) {
         char dummyChar[100];
@@ -1731,6 +1770,8 @@ void LBT::read_tables() { // intialize various tables for LBT
         f12 >> dummyChar >> dummyChar >> dummyChar >> dummyChar;
         f13 >> dummyChar >> dummyChar >> dummyChar >> dummyChar;
         f14 >> dummyChar >> dummyChar >> dummyChar >> dummyChar;
+        f15 >> dummyChar >> dummyChar >> dummyChar >> dummyChar;
+        f16 >> dummyChar >> dummyChar >> dummyChar >> dummyChar;
         for (int i = 1; i <= temp_gn; i++) {
           dNg_over_dt_c[k + 1][i][0] = 0.0;
           dNg_over_dt_q[k + 1][i][0] = 0.0;
@@ -1739,9 +1780,15 @@ void LBT::read_tables() { // intialize various tables for LBT
           max_dNgfnc_q[k + 1][i][0] = 0.0;
           max_dNgfnc_g[k + 1][i][0] = 0.0;
           for (int j = 1; j <= HQener_gn; j++) {
-            f12 >> dNg_over_dt_c[k + 1][i][j] >> max_dNgfnc_c[k + 1][i][j];
-            f13 >> dNg_over_dt_q[k + 1][i][j] >> max_dNgfnc_q[k + 1][i][j];
-            f14 >> dNg_over_dt_g[k + 1][i][j] >> max_dNgfnc_g[k + 1][i][j];
+            if (i <= 6){
+              f15 >> dNg_over_dt_q[k + 1][i][j] >> max_dNgfnc_q[k + 1][i][j];
+              f16 >> dNg_over_dt_g[k + 1][i][j] >> max_dNgfnc_g[k + 1][i][j];
+            }
+            else{
+              f12 >> dNg_over_dt_c[k + 1][i][j] >> max_dNgfnc_c[k + 1][i][j];
+              f13 >> dNg_over_dt_q[k + 1][i][j] >> max_dNgfnc_q[k + 1][i][j];
+              f14 >> dNg_over_dt_g[k + 1][i][j] >> max_dNgfnc_g[k + 1][i][j];
+            }
           }
         }
       }
@@ -1752,6 +1799,8 @@ void LBT::read_tables() { // intialize various tables for LBT
     f12.close();
     f13.close();
     f14.close();
+    f15.close();
+    f16.close();
 
     for (int i = 1; i <= temp_gn; i++) {
       for (int j = 1; j <= HQener_gn; j++) {
@@ -2266,6 +2315,20 @@ void LBT::linear(int KATT, double E, double T, double &T1, double &T2,
     //	  RTE2=(qhatLQ[iT2][iE2]-qhatLQ[iT1][iE2])*(T-T1)/(T2-T1)+qhatLQ[iT1][iE2];
     //	  qhatTP=(RTE2-RTE1)*(E-E1)/(E2-E1)+RTE1;
   }
+  if (ModificationFactor > 0.0){
+       ModificationCorr = 1.0 + 1.0 / ModificationFactor / T;
+       RTEg1 /= ModificationCorr;
+       RTEg2 /= ModificationCorr;
+       RTEg3 /= ModificationCorr;
+       RTEq3 /= ModificationCorr;
+       RTEq4 /= ModificationCorr;
+       RTEq5 /= ModificationCorr;
+       RTEq6 /= ModificationCorr;
+       RTEq7 /= ModificationCorr;
+       RTEq8 /= ModificationCorr;
+       RTEHQ11 /= ModificationCorr;
+       RTEHQ12 /= ModificationCorr;
+  }
 }
 
 //.........................................................................
@@ -2622,8 +2685,8 @@ void LBT::colljet22(int CT, double temp, double qhat0ud, double v0[4],
     double f2max_y = 1.2845;
     if (ModificationFactor > 0.0){
       ModificationCorr = 1.0 + 1.0 / ModificationFactor / temp;
-      f1max_y = 1.4215 /pow(ModificationCorr, 3.0);
-      f2max_y = 1.2845 /pow(ModificationCorr, 3.0);
+      f1max_y /= pow(ModificationCorr, 3.0);
+      f2max_y /= pow(ModificationCorr, 3.0);
     }
     f1 = pow(xw, 3) / (exp(xw) - 1) / f1max_y;
     f2 = pow(xw, 3) / (exp(xw) + 1) / f2max_y;
