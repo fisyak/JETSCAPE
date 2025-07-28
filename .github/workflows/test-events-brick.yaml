@@ -5,12 +5,12 @@ on:
     branches:
       - main
       - brick_matter_lbt
-      - latessa/lbt-test
+      - JETSCAPE-3.7.2-RC
   push:
     branches:
       - main
       - brick_matter_lbt
-      - latessa/lbt-test
+      - JETSCAPE-3.7.2-RC
 
 env:
   REPO_NAME: ${{ github.event.repository.name }}
