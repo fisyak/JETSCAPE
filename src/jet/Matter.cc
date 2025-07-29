@@ -811,7 +811,7 @@ void Matter::DoEnergyLoss(double deltaT, double time, double Q2,
                     pi * dt_lrf / 0.1973;
 
 	        prob_el=prob_el*ModifiedProbability(QhatParametrizationType, tempLoc, sdLoc, enerLoc, pIn[i].t());
-
+          prob_el /= ModificationCorr;
           el_rand = ZeroOneDistribution(*GetMt19937Generator());
 
           //cout << "  qhat: " << qhatLoc << "  alphas: " << soln_alphas << "  ener: " << enerLoc << "  prob_el: " << prob_el << "  " << el_rand << endl;
