@@ -83,10 +83,7 @@ void JetScapeWriterStream<T>::WriteHeaderToFile() {
 }
 
 template <class T>
-void JetScapeWriterStream<T>::WriteEvent() {
-  // JSINFO<<"Run JetScapeWriterStream<T>: Write event # "<<GetCurrentEvent()<<"
-  // ..."; do nothing, the modules handle this
-}
+void JetScapeWriterStream<T>::WriteEvent() {}
 
 template <class T>
 void JetScapeWriterStream<T>::Write(weak_ptr<Parton> p) {
@@ -118,13 +115,7 @@ void JetScapeWriterStream<T>::Init() {
 }
 
 template <class T>
-void JetScapeWriterStream<T>::Exec() {
-  // JSINFO<<"Run JetScapeWriterStream<T>: Write event # "<<GetCurrentEvent()<<"
-  // ...";
-
-  // if (GetActive())
-  //   WriteEvent();
-}
+void JetScapeWriterStream<T>::Exec() {}
 
 template <class T>
 void JetScapeWriterStream<T>::WriteInitFileXMLMain() {
