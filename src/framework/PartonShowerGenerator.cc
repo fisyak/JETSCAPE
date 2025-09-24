@@ -60,10 +60,10 @@ void PartonShowerGenerator::DoShower(JetEnergyLoss &j) {
   // vStartVecTemp.push_back(vEnd);
 
   // ISSUE: Probably not yet 100% wrt to time step evolution ...
-  // Logic mistake to remove the original ones when no split occured !!???
+  // Logic mistake to remove the original ones when no split occurred !!???
   // Follow up!!!!
   REMARK << "DoShower() Splitting including time evolution (allowing "
-            "non-splits at later times) implemeted correctly (should be made "
+            "non-splits at later times) implemented correctly (should be made "
             "nicer/pointers). To be checked!!!";
 
   // --------------------------------------------
@@ -163,7 +163,7 @@ void PartonShowerGenerator::DoShower(JetEnergyLoss &j) {
 
   // --------------------------------------------
 
-  // real ceck using mom. consveration at vertex ...!!!!
+  // real check using mom. conservation at vertex ...!!!!
   // pShower->save(&(cout<<BOLDCYAN));
 
   pIn.clear();
