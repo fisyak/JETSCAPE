@@ -41,7 +41,7 @@ class HadronizationManager
    * @brief Default constructor.
    */
   HadronizationManager();
-  
+
   /**
    * @brief Destructor.
    */
@@ -87,7 +87,7 @@ class HadronizationManager
 
   /**
    * @brief Deletes hadrons from hadronization submodules.
-   * 
+   *
    * This function is used when hadrons are passed to the afterburner.
    * Otherwise, hadrons are printed to file and the same hadrons are modified
    * in the transport and printed again.
@@ -96,19 +96,19 @@ class HadronizationManager
 
   /**
    * @brief Deletes hadrons with a positive status flag.
-   * 
-   * This function is used when hadrons are passed to the afterburner. The 
+   *
+   * This function is used when hadrons are passed to the afterburner. The
    * negative status flag hadrons are not deleted (can not be propagated in the
    * afterburner).
    */
   void DeleteRealHadrons();
 
   /**
-   * Signal to retrieve hadrons from the hard process, not from hadronization submodules.
+   * Signal to retrieve hadrons from the hard process, not from hadronization
+   * submodules.
    */
-  sigslot::signal1<vector<shared_ptr<Hadron>> &>
-      GetHadronList;
-  
+  sigslot::signal1<vector<shared_ptr<Hadron>> &> GetHadronList;
+
   /**
    * Signal to retrieve the final list of partons before hadronization.
    */

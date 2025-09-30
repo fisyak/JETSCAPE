@@ -30,14 +30,14 @@ namespace Jetscape {
  * @brief Interface for the hard scattering process in the JetScape framework.
  *
  * The HardProcess class defines the interface and base functionality
- * for simulating hard scattering events. It provides methods for initialization,
- * execution, clearing state, writing output, and handling event metadata such as
- * cross-sections and weights. Derived classes implement specific physics
- * modules such as Pythia-based event generators.
+ * for simulating hard scattering events. It provides methods for
+ * initialization, execution, clearing state, writing output, and handling event
+ * metadata such as cross-sections and weights. Derived classes implement
+ * specific physics modules such as Pythia-based event generators.
  */
 class HardProcess : public JetScapeModuleBase {
  public:
-  /** 
+  /**
    * @brief Default constructor.
    *
    * Creates a HardProcess physics task and sets the task ID as "HardProcess".
@@ -56,8 +56,8 @@ class HardProcess : public JetScapeModuleBase {
    * @brief Initialize the HardProcess module.
    *
    * Reads input parameters from the XML file under the `<Hard>` tag, retrieves
-   * the InitialState module from JetScapeSignalManager, sets up printer options,
-   * and initializes attached sub-tasks.
+   * the InitialState module from JetScapeSignalManager, sets up printer
+   * options, and initializes attached sub-tasks.
    */
   virtual void Init();
 

@@ -28,8 +28,8 @@ namespace Jetscape {
  * @class Afterburner
  * @brief Interface to hadronic afterburner.
  *
- * The Afterburner class gathers hadrons from soft particlization and 
- * fragmentation, and performs additional processing before passing them to 
+ * The Afterburner class gathers hadrons from soft particlization and
+ * fragmentation, and performs additional processing before passing them to
  * the final event output.
  */
 class Afterburner : public JetScapeModuleBase {
@@ -83,7 +83,8 @@ class Afterburner : public JetScapeModuleBase {
    * This function obtains hadrons generated through the soft particlization
    * process.
    *
-   * @return A vector of vectors containing shared pointers to soft particlization hadrons.
+   * @return A vector of vectors containing shared pointers to soft
+   * particlization hadrons.
    */
   std::vector<std::vector<std::shared_ptr<Hadron>>>
   GetSoftParticlizationHadrons();
@@ -97,9 +98,13 @@ class Afterburner : public JetScapeModuleBase {
    */
   std::vector<std::shared_ptr<Hadron>> GetFragmentationHadrons();
 
-  std::vector<std::vector<std::shared_ptr<Hadron>>> dummy; ///< Placeholder storage for hadrons.
-  std::uniform_real_distribution<double> ZeroOneDistribution; ///< Uniform random number distribution for position smearing.
-  std::shared_ptr<std::uniform_int_distribution<int>> rand_int_ptr_; ///< RNG for Kaon-L / Kaon-S switching to K0 / Anti-K0.
+  std::vector<std::vector<std::shared_ptr<Hadron>>>
+      dummy;  ///< Placeholder storage for hadrons.
+  std::uniform_real_distribution<double>
+      ZeroOneDistribution;  ///< Uniform random number distribution for position
+                            ///< smearing.
+  std::shared_ptr<std::uniform_int_distribution<int>>
+      rand_int_ptr_;  ///< RNG for Kaon-L / Kaon-S switching to K0 / Anti-K0.
 };
 
 }  // end namespace Jetscape

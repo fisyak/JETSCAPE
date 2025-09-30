@@ -23,8 +23,9 @@
 #include "sigslot.h"
 
 /// @name Filter Flags
-/// Bitmask flags that define which JetScape objects should be written to the output.
-/// These can be combined with bitwise OR to select multiple object types.
+/// Bitmask flags that define which JetScape objects should be written to the
+/// output. These can be combined with bitwise OR to select multiple object
+/// types.
 /// @{
 #define JETSCAPEWRITER_PARTONSHOWER 1
 #define JETSCAPEWRITER_PARTON 2
@@ -137,7 +138,8 @@ typedef JetScapeWriterStreamFilter<ofstream> JetScapeWriterAsciiFilter;
 #ifdef USE_GZIP
 /**
  * @typedef JetScapeWriterAsciiGZFilter
- * @brief Convenience typedef for gzip-compressed ASCII output writer with filtering.
+ * @brief Convenience typedef for gzip-compressed ASCII output writer with
+ * filtering.
  */
 typedef JetScapeWriterStreamFilter<ogzstream> JetScapeWriterAsciiGZFilter;
 #endif

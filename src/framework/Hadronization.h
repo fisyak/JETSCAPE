@@ -33,7 +33,7 @@ namespace Jetscape {
  * @brief Class responsible for hadronization in the JETSCAPE framework.
  *
  * The Hadronization class handles the transformation of partons into hadrons,
- * managing internal data structures and communication with other framework 
+ * managing internal data structures and communication with other framework
  * components.
  */
 class Hadronization : public JetScapeModuleBase,
@@ -67,7 +67,7 @@ class Hadronization : public JetScapeModuleBase,
 
   /**
    * @brief Perform the hadronization process.
-   * 
+   *
    * @param pIn Input partons.
    * @param hOut Output hadrons.
    * @param pOut Remaining partons after hadronization.
@@ -75,7 +75,7 @@ class Hadronization : public JetScapeModuleBase,
   virtual void DoHadronization(vector<vector<shared_ptr<Parton>>> &pIn,
                                vector<shared_ptr<Hadron>> &hOut,
                                vector<shared_ptr<Parton>> &pOut){};
-  
+
   /**
    * @brief Write hadronization data to an output stream.
    * @param w Writer object.
@@ -183,7 +183,7 @@ class Hadronization : public JetScapeModuleBase,
 
   /**
    * @brief Clear the hadron output vector.
-   * 
+   *
    * Explanation for necessity is provided in HadronizationManager.h.
    */
   void DeleteHadrons();
@@ -196,7 +196,7 @@ class Hadronization : public JetScapeModuleBase,
  private:
   /// Input partons.
   vector<vector<shared_ptr<Parton>>> inPartons;
-  
+
   /// Output hadrons.
   vector<shared_ptr<Hadron>> outHadrons;
 

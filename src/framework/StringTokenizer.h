@@ -25,10 +25,11 @@
 
 namespace Jetscape {
 
-/** 
+/**
  * @brief Default delimiter string.
- * 
- * Contains space, tab, vertical tab, newline, carriage return, form feed, '=', '>', '[', and ']'.
+ *
+ * Contains space, tab, vertical tab, newline, carriage return, form feed, '=',
+ * '>', '[', and ']'.
  */
 const std::string DEFAULT_DELIMITER = " \t\v\n\r\f=>[]";
 
@@ -36,57 +37,59 @@ const std::string DEFAULT_DELIMITER = " \t\v\n\r\f=>[]";
  * @class StringTokenizer
  * @brief A utility class for tokenizing strings.
  *
- * This class provides methods to split a string into tokens based on a given delimiter set.
+ * This class provides methods to split a string into tokens based on a given
+ * delimiter set.
  */
 class StringTokenizer {
  public:
   /** @brief Default constructor. */
   StringTokenizer(){};
 
-  /** 
+  /**
    * @brief Constructor to initialize with a string and an optional delimiter.
    * @param str The input string to tokenize.
    * @param delimiter The delimiter characters (default: DEFAULT_DELIMITER).
    */
   StringTokenizer(const std::string &str,
                   const std::string &delimiter = DEFAULT_DELIMITER);
-  
+
   /** @brief Destructor. */
   ~StringTokenizer();
 
-  /** 
+  /**
    * @brief Set a new string and delimiter for tokenization.
    * @param str The new input string.
    * @param delimiter The new delimiter string.
    */
   void set(const std::string &str,
            const std::string &delimiter = DEFAULT_DELIMITER);
-  
-  /** 
+
+  /**
    * @brief Set a new input string only.
    * @param str The new input string.
    */
   void setString(const std::string &str);
 
-  /** 
+  /**
    * @brief Set a new delimiter string only.
    * @param delimiter The new delimiter string.
    */
   void setDelimiter(const std::string &delimiter);
 
-  /** 
+  /**
    * @brief Get the next token from the string.
-   * @return The next token as a string, or an empty string if no more tokens exist.
+   * @return The next token as a string, or an empty string if no more tokens
+   * exist.
    */
   std::string next();
 
-  /** 
+  /**
    * @brief Split the remaining string into tokens.
    * @return A vector containing all tokens from the current cursor.
    */
   std::vector<std::string> split();
 
-  /** 
+  /**
    * @brief Check if all tokens have been processed.
    * @return True if no more tokens exist, false otherwise.
    */
@@ -117,18 +120,18 @@ class StringTokenizer {
   /** @brief Skip leading delimiters. */
   void skipDelimiter();
 
-  /** 
+  /**
    * @brief Check if a character is a delimiter.
    * @param c The character to check.
    * @return True if the character is a delimiter, false otherwise.
    */
   bool isDelimiter(char c);
 
-  std::string buffer; ///< Input string to be tokenized.
-  std::string token; ///< Current token.
-  std::string delimiter; ///< Delimiter characters.
-  std::string::const_iterator 
-    currPos; ///< Iterator pointing to the current position.
+  std::string buffer;     ///< Input string to be tokenized.
+  std::string token;      ///< Current token.
+  std::string delimiter;  ///< Delimiter characters.
+  std::string::const_iterator
+      currPos;  ///< Iterator pointing to the current position.
 };
 
 }  // end namespace Jetscape

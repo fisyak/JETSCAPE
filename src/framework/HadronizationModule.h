@@ -29,7 +29,8 @@ namespace Jetscape {
  * classes to implement their specific hadronization models while supporting
  * dynamic cloning.
  *
- * @tparam Derived The specific hadronization model class that inherits from this template.
+ * @tparam Derived The specific hadronization model class that inherits from
+ * this template.
  */
 template <typename Derived>
 class HadronizationModule : public Hadronization {

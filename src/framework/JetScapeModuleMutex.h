@@ -13,12 +13,13 @@ namespace Jetscape {
 
 /**
  * @class JetScapeModuleMutex
- * @brief Abstract interface for detecting mutual exclusions between JetScape modules.
+ * @brief Abstract interface for detecting mutual exclusions between JetScape
+ * modules.
  *
- * The `JetScapeModuleMutex` class is designed to ensure that certain 
- * `JetScapeTask` modules cannot be used together. For example, it may 
- * prevent two modules that provide the same functionality from being 
- * active simultaneously. 
+ * The `JetScapeModuleMutex` class is designed to ensure that certain
+ * `JetScapeTask` modules cannot be used together. For example, it may
+ * prevent two modules that provide the same functionality from being
+ * active simultaneously.
  *
  * Derived classes must implement the `CheckMutex` function, which examines
  * a collection of modules and returns whether they are mutually compatible.

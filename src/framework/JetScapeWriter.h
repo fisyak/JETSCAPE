@@ -34,9 +34,10 @@ namespace Jetscape {
  * @class JetScapeWriter
  * @brief Abstract base class for all JetScape output writers.
  *
- * The `JetScapeWriter` class defines the common interface for all writer modules
- * in the JetScape framework. Writers are responsible for serializing and storing
- * simulation objects, such as partons, hadrons, vertices, and full parton showers.
+ * The `JetScapeWriter` class defines the common interface for all writer
+ * modules in the JetScape framework. Writers are responsible for serializing
+ * and storing simulation objects, such as partons, hadrons, vertices, and full
+ * parton showers.
  *
  * This class also handles writing initialization information and event headers.
  * Specific output formats (ASCII, binary, compressed, etc.) are implemented in
@@ -135,7 +136,7 @@ class JetScapeWriter : public JetScapeModuleBase {
   virtual JetScapeEventHeader &GetHeader() { return header; };
 
  protected:
-  string file_name_out;  ///< Output file name
+  string file_name_out;        ///< Output file name
   JetScapeEventHeader header;  ///< Event header information
 };
 

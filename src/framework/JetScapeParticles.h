@@ -15,28 +15,33 @@
  ******************************************************************************/
 
 /**
- * @brief Base particle class in JETSCAPE, derived privately from FastJet PseudoJet.
+ * @brief Base particle class in JETSCAPE, derived privately from FastJet
+ * PseudoJet.
  *
- * Provides `JetScapeParticleBase` and derived classes (`Parton`, `Photon`, `Hadron`).
+ * Provides `JetScapeParticleBase` and derived classes (`Parton`, `Photon`,
+ * `Hadron`).
  *
  * @class Jetscape::JetScapeParticleBase
  *
- * A `JetScapeParticleBase` derives privately from FastJet `PseudoJet` and 
+ * A `JetScapeParticleBase` derives privately from FastJet `PseudoJet` and
  * adds additional information:
- * - PID (from PDG) and rest mass (should eventually be coupled, keeping only PID internally)
+ * - PID (from PDG) and rest mass (should eventually be coupled, keeping only
+ * PID internally)
  * - A location (creation point) 4-vector
  * - A label and a status code
- * - Additional information (some of which should be moved to derived classes or `UserInfo`)
+ * - Additional information (some of which should be moved to derived classes or
+ * `UserInfo`)
  *
  * ### Design choice
  * Protected inheritance is used due to mismatches between conventions:
  * - Most of the theory community expects the 0-component to be time/energy.
- * - FastJet (and packages like ROOT) instead use the 4th component for time/energy.
+ * - FastJet (and packages like ROOT) instead use the 4th component for
+ * time/energy.
  *
  * Private inheritance allows inheriting safe methods (via `using` in C++11),
- * while protecting users from unsafe component access.  
+ * while protecting users from unsafe component access.
  * This is necessary to prevent unwanted use of constructors and getters that
- * assume FastJet’s indexing conventions.  
+ * assume FastJet’s indexing conventions.
  * If these were removed or adapted, we could use public inheritance and obtain
  * a proper "is-a" relationship.
  *
@@ -62,10 +67,12 @@
  * functions in `PseudoJet` are intentionally not made available.
  *
  * ### Future considerations
- * - Making a Pythia8 installation mandatory: with guaranteed Pythia, rest mass 
+ * - Making a Pythia8 installation mandatory: with guaranteed Pythia, rest mass
  *   lookup could use PDG data automatically.
- * - If ROOT were mandatory, `TLorentzVector` could replace the custom `FourVector`.
- * - If HepMC were mandatory, `HepMC::FourVector` could replace the custom `FourVector`.
+ * - If ROOT were mandatory, `TLorentzVector` could replace the custom
+ * `FourVector`.
+ * - If HepMC were mandatory, `HepMC::FourVector` could replace the custom
+ * `FourVector`.
  */
 #ifndef JETSCAPEPARTICLES_H
 #define JETSCAPEPARTICLES_H
@@ -254,13 +261,13 @@ class JetScapeParticleBase : protected fjcore::PseudoJet {
   void clear();
 
   // --- Setters ---
-  void set_label(int label);    ///< Set label (event record line)
-  void set_id(int id);          ///< Set PDG ID 
-  void set_stat(int stat);      ///< Set status code
-  void set_x(double x[4]);      ///< Set production position
-  void init_jet_v();            ///< Initialize jet_v
-  void set_jet_v(double v[4]);  ///< Set jet velocity vector
-  void set_jet_v(FourVector j); ///< Set jet velocity vector
+  void set_label(int label);     ///< Set label (event record line)
+  void set_id(int id);           ///< Set PDG ID
+  void set_stat(int stat);       ///< Set status code
+  void set_x(double x[4]);       ///< Set production position
+  void init_jet_v();             ///< Initialize jet_v
+  void set_jet_v(double v[4]);   ///< Set jet velocity vector
+  void set_jet_v(FourVector j);  ///< Set jet velocity vector
 
   /** Set responsible module (e.g. energy loss).
    * @return false if already controlled. */
@@ -277,17 +284,17 @@ class JetScapeParticleBase : protected fjcore::PseudoJet {
   };
 
   // --- Getters ---
-  const int pid() const;                       ///< Get PDG ID
-  const int pstat() const;                     ///< Get status code
-  const int plabel() const;                    ///< Get label
-  const double time() const;                   ///< Get time component of position
-  std::vector<JetScapeParticleBase> parents(); ///< Retrieve parents
-  const FourVector p_in() const;               ///< Get incoming momentum
-  const FourVector &x_in() const;              ///< Get production position
-  const FourVector &jet_v() const;             ///< Get jet velocity vector
+  const int pid() const;      ///< Get PDG ID
+  const int pstat() const;    ///< Get status code
+  const int plabel() const;   ///< Get label
+  const double time() const;  ///< Get time component of position
+  std::vector<JetScapeParticleBase> parents();  ///< Retrieve parents
+  const FourVector p_in() const;                ///< Get incoming momentum
+  const FourVector &x_in() const;               ///< Get production position
+  const FourVector &jet_v() const;              ///< Get jet velocity vector
 
-  const double restmass();                     ///< Get rest mass
-  const double p(int i);                       ///< Get momentum component
+  const double restmass();  ///< Get rest mass
+  const double p(int i);    ///< Get momentum component
   double pl();
   const double nu();
   const double t_max();
@@ -296,8 +303,12 @@ class JetScapeParticleBase : protected fjcore::PseudoJet {
   virtual JetScapeParticleBase &operator=(JetScapeParticleBase &c);
   virtual JetScapeParticleBase &operator=(const JetScapeParticleBase &c);
 
-  string GetController() const { return controller_; }; ///< Name of controlling module
-  bool GetControlled() const { return controlled_; }; ///< Whether controlled by module
+  string GetController() const {
+    return controller_;
+  };  ///< Name of controlling module
+  bool GetControlled() const {
+    return controlled_;
+  };  ///< Whether controlled by module
 
   /// Static Pythia instance for PDG lookup
   static Pythia8::Pythia InternalHelperPythia;
@@ -305,21 +316,20 @@ class JetScapeParticleBase : protected fjcore::PseudoJet {
  protected:
   void set_restmass(double mass_input);  ///< Set rest mass internally
 
-  int pid_;      ///< PDG ID
-  int pstat_;    ///< Status code
-  int plabel_;   ///< Label in event record
-  double mass_;  ///< Rest mass of particle
+  int pid_;           ///< PDG ID
+  int pstat_;         ///< Status code
+  int plabel_;        ///< Label in event record
+  double mass_;       ///< Rest mass of particle
   FourVector x_in_;   ///< Production vertex
   FourVector jet_v_;  ///< Jet four vector, without gamma factor (so not really
                       ///< a four vector)
-  bool controlled_ = false; ///< Whether controlled by module
-  string controller_ = ""; ///< Name of controlling module
+  bool controlled_ = false;  ///< Whether controlled by module
+  string controller_ = "";   ///< Name of controlling module
 };
 // END BASE CLASS
 
 /// Stream output operator
 ostream &operator<<(ostream &output, JetScapeParticleBase &p);
-
 
 /**
  * @class Parton
@@ -334,43 +344,45 @@ class Parton : public JetScapeParticleBase {
  public:
   Parton(int label, int id, int stat, const FourVector &p, const FourVector &x);
   Parton(int label, int id, int stat, double pt, double eta, double phi,
-        double e, double *x = 0);
+         double e, double *x = 0);
   Parton(const Parton &srp);
 
   Parton &operator=(Parton &c);
   Parton &operator=(const Parton &c);
-  
+
   // --- Physics-specific ---
-  virtual void set_mean_form_time();                     ///< Set mean formation time
-  virtual void set_form_time(double form_time);          ///< Set formation time
-  virtual double form_time();                            ///< Get formation time
-  virtual const double mean_form_time();                 ///< Get mean formation time
-  virtual void reset_p(double px, double py, double pz); ///< Reset spatial momentum
+  virtual void set_mean_form_time();             ///< Set mean formation time
+  virtual void set_form_time(double form_time);  ///< Set formation time
+  virtual double form_time();                    ///< Get formation time
+  virtual const double mean_form_time();         ///< Get mean formation time
+  virtual void reset_p(double px, double py,
+                       double pz);  ///< Reset spatial momentum
 
   // --- Color ---
-  virtual void set_color(unsigned int col);  ///< Set color
+  virtual void set_color(unsigned int col);        ///< Set color
   virtual void set_anti_color(unsigned int acol);  ///< Set anti-color
-  virtual void set_max_color(unsigned int col);  ///< Set maximum color
-  virtual void set_min_color(unsigned int col);  ///< Set minimum color
-  virtual void set_min_anti_color(unsigned int acol);  ///< Set minimum anti-color
-  unsigned int color();        ///< Get color
-  unsigned int anti_color();   ///< Get anticolor
-  unsigned int max_color();    ///< Get max color
-  unsigned int min_color();    ///< Get min color
-  unsigned int min_anti_color(); ///< Get min anticolor
-  
+  virtual void set_max_color(unsigned int col);    ///< Set maximum color
+  virtual void set_min_color(unsigned int col);    ///< Set minimum color
+  virtual void set_min_anti_color(
+      unsigned int acol);         ///< Set minimum anti-color
+  unsigned int color();           ///< Get color
+  unsigned int anti_color();      ///< Get anticolor
+  unsigned int max_color();       ///< Get max color
+  unsigned int min_color();       ///< Get min color
+  unsigned int min_anti_color();  ///< Get min anticolor
+
   bool isPhoton(int pid);  ///< Check if particle is photon
 
+  const double t();      ///< Get virtuality
+  void set_t(double t);  ///< Set virtuality of particle (rescales the spatial
+                         ///< component)
+  const int edgeid() const;       ///< Position in shower graph
+  void set_edgeid(const int id);  ///< Set the edge id
 
-  const double t();  ///< Get virtuality
-  void set_t(double t);  ///< Set virtuality of particle (rescales the spatial component)
-  const int edgeid() const;    ///< Position in shower graph
-  void set_edgeid(const int id); ///< Set the edge id
-
-  void set_shower(const shared_ptr<PartonShower> pShower); ///< Set shower
-  void set_shower(const weak_ptr<PartonShower> pShower);   ///< Set shower (weak)
-  const weak_ptr<PartonShower> shower() const;             ///< Get shower
-  std::vector<Parton> parents();                           ///< Get parents
+  void set_shower(const shared_ptr<PartonShower> pShower);  ///< Set shower
+  void set_shower(const weak_ptr<PartonShower> pShower);  ///< Set shower (weak)
+  const weak_ptr<PartonShower> shower() const;            ///< Get shower
+  std::vector<Parton> parents();                          ///< Get parents
 
  protected:
   double mean_form_time_;      ///< Mean formation time
@@ -384,7 +396,7 @@ class Parton : public JetScapeParticleBase {
   weak_ptr<PartonShower> pShower_;  ///< shower that this parton belongs to
   int edgeid_;                      ///< Position in the shower graph
 
-  void initialize_form_time();  ///< Initialize formation time
+  void initialize_form_time();      ///< Initialize formation time
   void CheckAcceptability(int id);  ///< Check if parton ID is acceptable
 };
 
@@ -418,9 +430,8 @@ class Hadron : public JetScapeParticleBase {
   bool has_no_position();
 
  protected:
-  double width_; ///< Decay width
+  double width_;  ///< Decay width
 };
-
 
 /**
  * @class Photon
@@ -439,7 +450,6 @@ class Photon : public Parton {
   Photon &operator=(const Photon &ph);
 };
 
-
 /**
  * @class Qvector
  * @brief Flow Q-vector container.
@@ -449,27 +459,28 @@ class Photon : public Parton {
  */
 class Qvector {
  public:
-  Qvector(double pt_min, double pt_max, int npt,
-          double y_min, double y_max, int ny,
-          int norder, int pid, int rapidity_type);
+  Qvector(double pt_min, double pt_max, int npt, double y_min, double y_max,
+          int ny, int norder, int pid, int rapidity_type);
 
-  void fill(double pt_in, double y_in, int col_in, double val); ///< Fill bin
-  void fill_particle(const shared_ptr<Hadron> &hadron);         ///< Fill from hadron
+  void fill(double pt_in, double y_in, int col_in, double val);  ///< Fill bin
+  void fill_particle(const shared_ptr<Hadron> &hadron);  ///< Fill from hadron
 
-  int get_pdgcode() const { return pid_; }   ///< Get PDG code
-  int get_npt() const { return npt_; }       ///< Get number of pT bins
-  int get_ny() const { return ny_; }         ///< Get number of rapidity bins
-  int get_norder() const { return norder_; } ///< Get harmonic order
-  int get_ncols() const { return ncols_; }   ///< Get number of columns
-  int get_total_num() { return total_num_; } ///< Get total entries
-  double get_value(int i, int j, int k) const { return hist_[i][j][k]; } ///< Access bin content
+  int get_pdgcode() const { return pid_; }    ///< Get PDG code
+  int get_npt() const { return npt_; }        ///< Get number of pT bins
+  int get_ny() const { return ny_; }          ///< Get number of rapidity bins
+  int get_norder() const { return norder_; }  ///< Get harmonic order
+  int get_ncols() const { return ncols_; }    ///< Get number of columns
+  int get_total_num() { return total_num_; }  ///< Get total entries
+  double get_value(int i, int j, int k) const {
+    return hist_[i][j][k];
+  }  ///< Access bin content
 
-  double get_dpt() const { return dpt_; }            ///< Bin width in pT
-  double get_dy() const { return dy_; }              ///< Bin width in rapidity
-  double get_pt(int idx) const;                      ///< Center of pT bin
-  double get_y(int idx) const;                       ///< Center of y bin
-  void set_header(std::string a);                    ///< Set output header
-  std::string get_header() const { return header_; } ///< Get output header
+  double get_dpt() const { return dpt_; }             ///< Bin width in pT
+  double get_dy() const { return dy_; }               ///< Bin width in rapidity
+  double get_pt(int idx) const;                       ///< Center of pT bin
+  double get_y(int idx) const;                        ///< Center of y bin
+  void set_header(std::string a);                     ///< Set output header
+  std::string get_header() const { return header_; }  ///< Get output header
 
  private:
   double pt_min_, pt_max_, y_min_, y_max_;

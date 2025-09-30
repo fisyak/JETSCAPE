@@ -16,7 +16,8 @@
 
 /**
  * @file LinearInterpolation.h
- * @brief Interpolation utility functions (linear, bilinear, trilinear) for general types.
+ * @brief Interpolation utility functions (linear, bilinear, trilinear) for
+ * general types.
  */
 
 #ifndef LINEARINTERPOLATION_H

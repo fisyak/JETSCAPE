@@ -37,7 +37,8 @@ namespace Jetscape {
 
 /**
  * @class JetScapeWriterQnVectorStream
- * @brief Writer module that accumulates hadrons and computes Qn-vector observables.
+ * @brief Writer module that accumulates hadrons and computes Qn-vector
+ * observables.
  *
  * This templated writer collects all final-state hadrons from an event,
  * bins them in transverse momentum and rapidity, and computes flow
@@ -130,7 +131,7 @@ class JetScapeWriterQnVectorStream : public JetScapeWriter {
    * @brief Process all accumulated hadrons and write Qn-vectors to file.
    *
    * Loops over selected particle species, fills Qn-vectors using
-   * `Qvector` objects and writes results in tabular form. 
+   * `Qvector` objects and writes results in tabular form.
    */
   void WriteEvent();
 
@@ -154,8 +155,9 @@ class JetScapeWriterQnVectorStream : public JetScapeWriter {
 
  protected:
   T output_file;  //!< Output file stream (ASCII or GZip).
-  std::vector<std::shared_ptr<Hadron>> particles; //!< Collected hadrons for the current event.
-  bool writeCentrality; //!< Whether to write event centrality.
+  std::vector<std::shared_ptr<Hadron>>
+      particles;         //!< Collected hadrons for the current event.
+  bool writeCentrality;  //!< Whether to write event centrality.
   static RegisterJetScapeModule<JetScapeWriterQnVectorStream<ofstream>>
       regQnVector;
   /// Registration of the GZip writer module (if enabled).
@@ -163,14 +165,14 @@ class JetScapeWriterQnVectorStream : public JetScapeWriter {
       regQnVectorGZ;
 
  private:
-  double pTmin_; //!< Minimum pT for binning.
-  double pTmax_; //!< Maximum pT for binning.
-  double rapmin_; //!< Minimum rapidity for binning.
-  double rapmax_; //!< Maximum rapidity for binning.
-  int npT_; //!< Number of pT bins.
-  int nrap_; //!< Number of rapidity bins.
-  int norder_; //!< Maximum harmonic order for Qn-vectors.
-  std::map<int, int> chpdg_; //!< PDG code lookup for charged hadrons.
+  double pTmin_;              //!< Minimum pT for binning.
+  double pTmax_;              //!< Maximum pT for binning.
+  double rapmin_;             //!< Minimum rapidity for binning.
+  double rapmax_;             //!< Maximum rapidity for binning.
+  int npT_;                   //!< Number of pT bins.
+  int nrap_;                  //!< Number of rapidity bins.
+  int norder_;                //!< Maximum harmonic order for Qn-vectors.
+  std::map<int, int> chpdg_;  //!< PDG code lookup for charged hadrons.
 };
 
 /**
@@ -182,7 +184,8 @@ typedef JetScapeWriterQnVectorStream<ofstream> JetScapeWriterQnVectorAscii;
 #ifdef USE_GZIP
 /**
  * @typedef JetScapeWriterQnVectorAsciiGZ
- * @brief Convenience typedef for GZip-compressed Qn-vector writer (`ogzstream` backend).
+ * @brief Convenience typedef for GZip-compressed Qn-vector writer (`ogzstream`
+ * backend).
  */
 typedef JetScapeWriterQnVectorStream<ogzstream> JetScapeWriterQnVectorAsciiGZ;
 #endif

@@ -33,12 +33,11 @@ enum PreequilibriumStatus { NOT_STARTED, INIT, DONE, ERR };
 
 /**
  * @brief JETSCAPE module for preequilibrium dynamics
- * 
+ *
  * This module will evolve the preequilibrium dynamics of the medium.
  */
 class PreequilibriumDynamics : public JetScapeModuleBase {
  private:
-
  public:
   /**
    * @brief Construct a new PreequilibriumDynamics object
@@ -55,16 +54,16 @@ class PreequilibriumDynamics : public JetScapeModuleBase {
 
   /**
    * @brief Initialize the PreequilibriumDynamics module
-   * 
-   * Reads the input parameters from the XML file under the tag <Preequilibrium>.
-   * Uses JetScapeSingnalManager instance to retrieve the Initial State Physics
-   * information.
+   *
+   * Reads the input parameters from the XML file under the tag
+   * <Preequilibrium>. Uses JetScapeSingnalManager instance to retrieve the
+   * Initial State Physics information.
    */
   void Init();
-  
+
   /**
    * @brief Execute the PreequilibriumDynamics module
-   * 
+   *
    * Calls EvolvePreequilibrium(). This explicit call can be used for actual
    * execution of pre-equilibrium evolution defined in the modules.
    */
@@ -72,7 +71,7 @@ class PreequilibriumDynamics : public JetScapeModuleBase {
 
   /**
    * @brief Clear the PreequilibriumDynamics module
-   * 
+   *
    * This function clears the preequilibrium dynamics module. It can be
    * overridden by other tasks.
    */
@@ -80,15 +79,15 @@ class PreequilibriumDynamics : public JetScapeModuleBase {
 
   /**
    * @brief Initialize the preequilibrium dynamics
-   * 
+   *
    * This function initializes the preequilibrium dynamics. It can be overridden
    * by other tasks.
    */
   virtual void InitializePreequilibrium() {}
-  
+
   /**
    * @brief Evolve the preequilibrium dynamics
-   * 
+   *
    * This function evolves the preequilibrium dynamics. It can be overridden by
    * other tasks.
    */
@@ -96,15 +95,15 @@ class PreequilibriumDynamics : public JetScapeModuleBase {
 
   /**
    * @brief Set the initial state object
-   * 
+   *
    * @param ini A shared pointer of type InitialState
    */
   std::shared_ptr<InitialState> ini;
 
   /**
    * @brief Get the pre-equilibrium status
-   * 
-   * @return int The status of the preequilibrium dynamics 
+   *
+   * @return int The status of the preequilibrium dynamics
    */
   int GetPreequilibriumStatus() { return (preequilibrium_status_); }
 
@@ -112,7 +111,7 @@ class PreequilibriumDynamics : public JetScapeModuleBase {
 
   /**
    * @brief Get the preequilibrium start time
-   * 
+   *
    * @return real The start time for preequilibrium evolution
    */
   virtual real GetPreequilibriumStartTime() const {
@@ -121,43 +120,43 @@ class PreequilibriumDynamics : public JetScapeModuleBase {
 
   /**
    * @brief Get the preequilibrium evolution time step
-   * 
+   *
    * This function can be overridden by other tasks.
-   * 
+   *
    * @return real The time step for preequilibrium evolution
    */
   virtual real GetPreequilibriumEvodtau() const { return (0.02); }
 
   /**
    * @brief Get the number of time steps for preequilibrium evolution
-   * 
+   *
    * This function can be overridden by other tasks.
-   * 
+   *
    * @return int The number of time steps for preequilibrium evolution
    */
   virtual int get_ntau() const { return (0); }
 
   /**
    * @brief Get the preequilibrium end time
-   * 
+   *
    * @return real The end time for preequilibrium evolution
    */
   real GetPreequilibriumEndTime() { return (preequilibrium_tau_max_); }
 
   /**
    * @brief Get the number of fluid cells
-   * 
+   *
    * This function can be overridden by other tasks.
-   * 
+   *
    * @return int The number of fluid cells
    */
   virtual int get_number_of_fluid_cells() { return (0); }
-  
+
   /**
    * @brief Get the fluid cell with index
-   * 
+   *
    * This function can be overridden by other tasks.
-   * 
+   *
    * @param idx The index of the fluid cell
    * @param info_ptr A unique pointer of type FluidCellInfo
    */
@@ -166,7 +165,7 @@ class PreequilibriumDynamics : public JetScapeModuleBase {
 
   /**
    * @brief Clear the evolution data
-   * 
+   *
    * This function can be overridden by other tasks.
    */
   virtual void clear_evolution_data() {}

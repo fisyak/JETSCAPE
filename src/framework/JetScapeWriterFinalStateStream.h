@@ -141,12 +141,14 @@ class JetScapeWriterFinalStateStream : public JetScapeWriter {
 
  protected:
   T output_file;  ///< Output file stream.
-  std::vector<std::shared_ptr<JetScapeParticleBase>> particles;  ///< Collected particles to write.
+  std::vector<std::shared_ptr<JetScapeParticleBase>>
+      particles;         ///< Collected particles to write.
   bool writeCentrality;  ///< Whether to write centrality information.
-  bool writePtHat;  ///< Whether to write pTHat information.
-  std::vector<int> particleStatusToSkip;  ///< Particle status codes to skip when writing.
+  bool writePtHat;       ///< Whether to write pTHat information.
+  std::vector<int>
+      particleStatusToSkip;    ///< Particle status codes to skip when writing.
   unsigned int headerVersion;  ///< Version number for the header format.
-  bool binaryOutput;  ///< Whether to write in binary format.
+  bool binaryOutput;           ///< Whether to write in binary format.
 };
 
 /**
@@ -193,7 +195,8 @@ class JetScapeWriterFinalStatePartonsStream
  * @brief Specialization for writing final state hadrons to a stream.
  *
  * This class inherits from JetScapeWriterFinalStateStream and provides
- * functionality specific to hadron output. Parton showers are explicitly skipped.
+ * functionality specific to hadron output. Parton showers are explicitly
+ * skipped.
  *
  * @tparam T Output stream type.
  */
@@ -239,12 +242,12 @@ typedef JetScapeWriterFinalStatePartonsStream<ofstream>
 typedef JetScapeWriterFinalStateHadronsStream<ofstream>
     JetScapeWriterFinalStateHadronsAscii;
 
-    #ifdef USE_GZIP
+#ifdef USE_GZIP
 /**
  * @typedef JetScapeWriterFinalStatePartonsAsciiGZ
  * @brief Alias for the gzipped parton writer.
  */
-    typedef JetScapeWriterFinalStatePartonsStream<ogzstream>
+typedef JetScapeWriterFinalStatePartonsStream<ogzstream>
     JetScapeWriterFinalStatePartonsAsciiGZ;
 
 /** @typedef JetScapeWriterFinalStateHadronsAsciiGZ

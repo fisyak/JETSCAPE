@@ -45,7 +45,7 @@ class FourVector;
  * @class Jet
  * @brief Placeholder class representing a jet object in the JETSCAPE framework.
  *
- * The Jet class is currently a dummy implementation, intended to be expanded 
+ * The Jet class is currently a dummy implementation, intended to be expanded
  * once the jet graph structure is fully implemented.
  */
 class Jet {
@@ -69,7 +69,7 @@ class Jet {
  * @brief Represents a space-time vertex in the JETSCAPE framework.
  *
  * A Vertex stores its four-dimensional position using the FourVector class.
- * In future extensions, connections to parents, children, and siblings will be 
+ * In future extensions, connections to parents, children, and siblings will be
  * handled through a graph structure.
  */
 class Vertex {

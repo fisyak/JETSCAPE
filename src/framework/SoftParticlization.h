@@ -32,7 +32,7 @@ namespace Jetscape {
 
 /**
  * @brief JETSCAPE module for soft particlization
- * 
+ *
  * This module will generate Monte-Carlo samples for soft hadrons from the
  * hydrodynamic output.
  */
@@ -75,7 +75,7 @@ class SoftParticlization : public JetScapeModuleBase {
    */
   sigslot::signal1<std::vector<SurfaceCellInfo> &, multi_threaded_local>
       GetHydroHyperSurface;
-  
+
   /**
    * @brief Signal for clearing the hydrodynamic hypersurface
    */
@@ -83,7 +83,7 @@ class SoftParticlization : public JetScapeModuleBase {
 
   /**
    * @brief Set the GetHydroHyperSurfaceConnected flag
-   * 
+   *
    * @param m_GetHydroHyperSurfaceConnected Boolean flag
    */
   void SetGetHydroHyperSurfaceConnected(bool m_GetHydroHyperSurfaceConnected) {
@@ -92,7 +92,7 @@ class SoftParticlization : public JetScapeModuleBase {
 
   /**
    * @brief Set the ClearHydroHyperSurfaceConnected flag
-   * 
+   *
    * @param m_ClearHydroHyperSurfaceConnected Boolean flag
    */
   void SetClearHydroHyperSurfaceConnected(
@@ -102,7 +102,7 @@ class SoftParticlization : public JetScapeModuleBase {
 
   /**
    * @brief Get the GetHydroHyperSurfaceConnected flag
-   * 
+   *
    * @return Boolean
    */
   bool GetGetHydroHyperSurfaceConnected() const {
@@ -111,7 +111,7 @@ class SoftParticlization : public JetScapeModuleBase {
 
   /**
    * @brief Get the ClearHydroHyperSurfaceConnected flag
-   * 
+   *
    * @return Boolean
    */
   bool GetClearHydroHyperSurfaceConnected() const {
@@ -126,7 +126,7 @@ class SoftParticlization : public JetScapeModuleBase {
 
   /**
    * @brief Check the boost invariance
-   * 
+   *
    * @return Boolean
    */
   bool check_boost_invariance();

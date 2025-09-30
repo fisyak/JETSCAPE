@@ -18,12 +18,14 @@
  * @file MakeUniqueHelper.h
  * @brief Helper utilities for C++11 to emulate C++14's std::make_unique.
  *
- * This header defines a `make_unique` implementation that provides equivalent functionality
- * to C++14's `std::make_unique`, allowing safer dynamic memory allocation with `std::unique_ptr`
- * in C++11. It includes support for single objects and dynamically sized arrays, but prevents
- * use with fixed-size arrays, as per the C++14 standard proposal (N3656).
+ * This header defines a `make_unique` implementation that provides equivalent
+ *functionality to C++14's `std::make_unique`, allowing safer dynamic memory
+ *allocation with `std::unique_ptr` in C++11. It includes support for single
+ *objects and dynamically sized arrays, but prevents use with fixed-size arrays,
+ *as per the C++14 standard proposal (N3656).
  *
- * It also provides a utility function to determine if a `std::weak_ptr` is uninitialized.
+ * It also provides a utility function to determine if a `std::weak_ptr` is
+ *uninitialized.
  *
  * Adapted from: https://isocpp.org/files/papers/N3656.txt
  *
@@ -45,21 +47,23 @@ namespace Jetscape {
 /**
  * @brief Internal trait to determine the correct return type for make_unique.
  *
- * Specializes for single objects, dynamically sized arrays, and fixed-size arrays.
+ * Specializes for single objects, dynamically sized arrays, and fixed-size
+ * arrays.
  */
 template <class T>
 struct _Unique_if {
-  typedef std::unique_ptr<T> _Single_object; ///< For single object allocation
+  typedef std::unique_ptr<T> _Single_object;  ///< For single object allocation
 };
 
 template <class T>
 struct _Unique_if<T[]> {
-  typedef std::unique_ptr<T[]> _Unknown_bound; ///< For dynamically sized arrays
+  typedef std::unique_ptr<T[]>
+      _Unknown_bound;  ///< For dynamically sized arrays
 };
 
 template <class T, size_t N>
 struct _Unique_if<T[N]> {
-  typedef void _Known_bound; ///< Disallowed: fixed-size arrays
+  typedef void _Known_bound;  ///< Disallowed: fixed-size arrays
 };
 
 /**

@@ -41,27 +41,27 @@ using namespace sigslot;
 
 namespace Jetscape {
 
-/** 
+/**
  * @class JetScapeSignalManager
  * @brief Singleton class for managing signal-slot connections between
  *        JETSCAPE modules.
- * 
+ *
  * The JetScapeSignalManager orchestrates the communication between different
  * modules of the JETSCAPE framework (e.g., initial state, hydro, energy loss,
  * hadronization, etc.) via the `sigslot` signal/slot mechanism. It maintains
  * and connects module interfaces such that partons, hydrodynamic cells, and
  * hadrons can be passed consistently between simulation stages.
- * 
+ *
  * This class is designed as a singleton. Use JetScapeSignalManager::Instance()
  * to retrieve the global instance.
- * 
+ *
  * Responsibilities:
  * - Store and provide weak pointers to all major physics modules.
  * - Establish signal-slot connections between modules (e.g., hydro ↔ jet energy
  *  loss, hard process ↔ hadronization).
  * - Maintain internal maps of connected signals for debugging and cleanup.
  * - Print and clean up signal maps.
-*/
+ */
 class
     JetScapeSignalManager  //: public
                            //: sigslot::has_slots<sigslot::multi_threaded_local>

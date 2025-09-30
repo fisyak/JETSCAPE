@@ -28,17 +28,18 @@
 namespace Jetscape {
 
 /**
- * @brief Represents a localized energy-momentum contribution from a parton to the fluid medium.
+ * @brief Represents a localized energy-momentum contribution from a parton to
+ * the fluid medium.
  *
- * In the JETSCAPE framework, a Droplet is a conceptual object used to bridge the gap
- * between discrete partonic information and continuous hydrodynamic fields.
- * Each droplet represents a localized "chunk" of energy and momentum to be deposited
- * into the hydrodynamic grid. 
+ * In the JETSCAPE framework, a Droplet is a conceptual object used to bridge
+ * the gap between discrete partonic information and continuous hydrodynamic
+ * fields. Each droplet represents a localized "chunk" of energy and momentum to
+ * be deposited into the hydrodynamic grid.
  */
 class Droplet {
  private:
-  std::array<Jetscape::real, 4> xmu; ///< Position 4-vector
-  std::array<Jetscape::real, 4> pmu; ///< Momentum 4-vector
+  std::array<Jetscape::real, 4> xmu;  ///< Position 4-vector
+  std::array<Jetscape::real, 4> pmu;  ///< Momentum 4-vector
 
  public:
   /**
@@ -82,19 +83,24 @@ class Droplet {
 };
 
 /**
- * @brief Base class for converting partonic energy/momentum into hydrodynamic sources ("liquefying").
+ * @brief Base class for converting partonic energy/momentum into hydrodynamic
+ * sources ("liquefying").
  */
 class LiquefierBase {
  private:
-  std::vector<Droplet> dropletlist; ///< List of droplets representing source contributions
-  bool GetHydroCellSignalConnected; ///< Flag for whether signal connection to hydro exists
-  
-  const int drop_stat; ///< Droplet statistics
-  const int miss_stat; ///< Missed parton statistics
-  const int neg_stat; ///< Negative energy statistics
-  const Jetscape::real hydro_source_abs_err; ///< Error tolerance for hydro sources
-  bool threshold_energy_switch; ///< Whether to apply energy threshold filtering
-  double e_threshold; ///< Energy threshold value
+  std::vector<Droplet>
+      dropletlist;  ///< List of droplets representing source contributions
+  bool GetHydroCellSignalConnected;  ///< Flag for whether signal connection to
+                                     ///< hydro exists
+
+  const int drop_stat;  ///< Droplet statistics
+  const int miss_stat;  ///< Missed parton statistics
+  const int neg_stat;   ///< Negative energy statistics
+  const Jetscape::real
+      hydro_source_abs_err;  ///< Error tolerance for hydro sources
+  bool
+      threshold_energy_switch;  ///< Whether to apply energy threshold filtering
+  double e_threshold;           ///< Energy threshold value
 
  public:
   /**

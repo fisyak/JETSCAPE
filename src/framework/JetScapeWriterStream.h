@@ -34,7 +34,8 @@ namespace Jetscape {
 
 /**
  * @class JetScapeWriterStream
- * @brief Writer module for exporting JETSCAPE events to an ASCII (or gzipped) stream.
+ * @brief Writer module for exporting JETSCAPE events to an ASCII (or gzipped)
+ * stream.
  *
  * The JetScapeWriterStream class provides functionality for writing
  * simulation outputs such as partons, vertices, hadrons, and entire
@@ -65,7 +66,7 @@ class JetScapeWriterStream : public JetScapeWriter {
   virtual ~JetScapeWriterStream<T>();
 
   /** @brief Initialize the writer module.
-   * 
+   *
    * Opens the output file.
    */
   void Init();
@@ -104,7 +105,8 @@ class JetScapeWriterStream : public JetScapeWriter {
    * @brief Write a parton shower to the output file.
    * @param ps Weak pointer to a PartonShower object.
    *
-   * Outputs vertices and partons belonging to the shower in a structured format.
+   * Outputs vertices and partons belonging to the shower in a structured
+   * format.
    */
   void Write(weak_ptr<PartonShower> ps);
 
@@ -165,7 +167,7 @@ class JetScapeWriterStream : public JetScapeWriter {
   void WriteEvent();
 
  protected:
-  T output_file; //!< Output file stream (ASCII or gzip-compressed).
+  T output_file;  //!< Output file stream (ASCII or gzip-compressed).
 
   /**
    * @brief Register the ASCII writer with the JETSCAPE framework.

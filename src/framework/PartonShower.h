@@ -40,13 +40,14 @@ class Parton;
  * @class PartonShower
  * @brief Represents a parton shower as a directed graph.
  *
- * This class provides an interface for constructing and analyzing parton showers
- * in a graph-theoretic framework. Each **node** corresponds to a space-time
- * splitting vertex, and each **edge** corresponds to a parton propagating
- * between two vertices.
+ * This class provides an interface for constructing and analyzing parton
+ * showers in a graph-theoretic framework. Each **node** corresponds to a
+ * space-time splitting vertex, and each **edge** corresponds to a parton
+ * propagating between two vertices.
  *
  * - Internally inherits from GTL's `graph` class.
- * - Provides mappings from GTL nodes/edges to JETSCAPE `Vertex` and `Parton` objects.
+ * - Provides mappings from GTL nodes/edges to JETSCAPE `Vertex` and `Parton`
+ * objects.
  * - Supports export to multiple graph formats (GML, Graphviz `.gv`, GraphML).
  * - Provides utilities for analyzing shower structure, such as retrieving
  *   final-state partons and vertex/parton counts.

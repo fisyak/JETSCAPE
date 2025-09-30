@@ -50,8 +50,8 @@ class JetScapeTask {
   /**
    * @brief Default constructor.
    *
-   * Initializes the task with `active_exec` set to true and `id` to a 
-   * default value. `my_task_number_` is assigned using the `RegisterTask` 
+   * Initializes the task with `active_exec` set to true and `id` to a
+   * default value. `my_task_number_` is assigned using the `RegisterTask`
    * method.
    */
   JetScapeTask();
@@ -127,10 +127,10 @@ class JetScapeTask {
 
   /**
    * @brief Recursively write output from all subtasks.
-   * 
-   * The active_exec flag is used to decide whether to write the output in 
+   *
+   * The active_exec flag is used to decide whether to write the output in
    * the file or not.
-   * 
+   *
    * @param w Weak pointer to the JetScapeWriter instance.
    */
   virtual void WriteTasks(weak_ptr<JetScapeWriter> w);
@@ -141,12 +141,12 @@ class JetScapeTask {
    * This is the default virtual WriteTask() function for a JetScapeTask.
    * It can be overridden by different modules/tasks.
    *
-   * Current setup: Every task gets handed a pointer to the writer and can add any
-   * information it likes using predefined functions like `WriteComment()`.
+   * Current setup: Every task gets handed a pointer to the writer and can add
+   * any information it likes using predefined functions like `WriteComment()`.
    *
-   * This approach is flexible, but makes it difficult to properly store information
-   * across multiple output formats. Ideally, writers should collect and process this
-   * information intelligently.
+   * This approach is flexible, but makes it difficult to properly store
+   * information across multiple output formats. Ideally, writers should collect
+   * and process this information intelligently.
    *
    * @param w Weak pointer to the JetScapeWriter instance.
    */

@@ -50,7 +50,7 @@ namespace Jetscape {
  *
  * This class manages task registration, task-specific or shared random number
  * generators, and other resources. It ensures thread-safe access and consistent
- * initialization across tasks. 
+ * initialization across tasks.
  *
  * Initially developed to provide reproducible random seeds to each task.
  * It uses a Mersenne Twister engine (`std::mt19937`) as the RNG.
@@ -68,7 +68,7 @@ class JetScapeTaskSupport {
 
   /**
    * @brief Register a task and assign it a unique ID.
-   * 
+   *
    * This function should be called once per task at construction time.
    * @return An integer task ID unique to the current session.
    */
@@ -76,7 +76,7 @@ class JetScapeTaskSupport {
 
   /**
    * @brief Read the random seed from the XML configuration.
-   * 
+   *
    * Initializes the random seed used for RNG generation.
    */
   static void ReadSeedFromXML();
@@ -85,7 +85,7 @@ class JetScapeTaskSupport {
    * @brief Get a random number generator for a task.
    *
    * Returns a `std::shared_ptr<std::mt19937>` to a Mersenne Twister RNG.
-   * Depending on configuration, each task may receive a unique RNG or share a 
+   * Depending on configuration, each task may receive a unique RNG or share a
    * global one.
    *
    * @param TaskId The ID of the task requesting the RNG.
