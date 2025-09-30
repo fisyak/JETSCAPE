@@ -96,6 +96,18 @@ class JetScapeEventHeader {
    * @param d Event weight
    */
   void SetEventWeight(double d) { EventWeight = d; };
+  /// Initial Hard Process: Get vertex X position
+  double GetVertexX() { return vX; };
+  /// Initial Hard Process: Set vertex X position
+  void SetVertexX(double d) { vX = d; };
+  /// Initial Hard Process: Get vertex Y position
+  double GetVertexY() { return vY; };
+  /// Initial Hard Process: Set vertex Y position
+  void SetVertexY(double d) { vY = d; };
+  /// Initial Hard Process: Get vertex Z position
+  double GetVertexZ() { return vZ; };
+  /// Initial Hard Process: Set vertex Z position
+  void SetVertexZ(double d) { vZ = d; };
 
   // ============================ Initial State
   // =================================
@@ -170,6 +182,9 @@ class JetScapeEventHeader {
   double SigmaErr = -1;    ///< Cross-section uncertainty
   double PtHat = -1;       ///< pt-hat value
   double EventWeight = 1;  ///< Event weight
+  double vX = -999;        ///< Vertex X position
+  double vY = -999;        ///< Vertex Y position
+  double vZ = -999;        ///< Vertex Z position
 
   // ============================ Initial State
   // =================================

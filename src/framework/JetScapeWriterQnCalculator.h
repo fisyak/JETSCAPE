@@ -155,8 +155,7 @@ class JetScapeWriterQnVectorStream : public JetScapeWriter {
  protected:
   T output_file;  //!< Output file stream (ASCII or GZip).
   std::vector<std::shared_ptr<Hadron>> particles; //!< Collected hadrons for the current event.
-
-  /// Registration of the ASCII writer module.
+  bool writeCentrality; //!< Whether to write event centrality.
   static RegisterJetScapeModule<JetScapeWriterQnVectorStream<ofstream>>
       regQnVector;
   /// Registration of the GZip writer module (if enabled).

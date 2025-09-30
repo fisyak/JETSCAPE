@@ -145,6 +145,8 @@ class JetScapeWriterFinalStateStream : public JetScapeWriter {
   bool writeCentrality;  ///< Whether to write centrality information.
   bool writePtHat;  ///< Whether to write pTHat information.
   std::vector<int> particleStatusToSkip;  ///< Particle status codes to skip when writing.
+  unsigned int headerVersion;  ///< Version number for the header format.
+  bool binaryOutput;  ///< Whether to write in binary format.
 };
 
 /**

@@ -52,9 +52,11 @@ void HardProcess::Init() {
   if (!ini) {
     // If not vacuum case, give warning to add initial state module
     bool in_vac = GetXMLElementInt({"Eloss", "Matter", "in_vac"});
-    if (!in_vac) {
+    bool in_brick = GetXMLElementInt({"Eloss", "Matter", "brick_med"});
+    if (!in_vac and !in_brick) {
       JSWARN << "No initial state module! Please check whether you intend to "
                 "add an initial state module.";
+      exit(-1);
     }
   }
   string status = GetXMLElementText({"PartonPrinter", "Status"});
@@ -62,6 +64,7 @@ void HardProcess::Init() {
     printer = GetXMLElementText({"PartonPrinter", "FileName"});
     JSINFO << BOLDYELLOW << "Extra parton info goes to " << printer;
   }
+
   InitTask();
 
   JetScapeTask::InitTasks();
@@ -114,6 +117,9 @@ void HardProcess::CollectHeader(weak_ptr<JetScapeWriter> w) {
     header.SetSigmaErr(GetSigmaErr());
     header.SetPtHat(GetPtHat());
     header.SetEventWeight(GetEventWeight());
+    header.SetVertexX(hp_list[0]->x_in().x());
+    header.SetVertexY(hp_list[0]->x_in().y());
+    header.SetVertexZ(hp_list[0]->x_in().z());
   }
 }
 
