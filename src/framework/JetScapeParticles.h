@@ -288,6 +288,7 @@ class JetScapeParticleBase : protected fjcore::PseudoJet {
 
   const double restmass();                     ///< Get rest mass
   const double p(int i);                       ///< Get momentum component
+  double pl();
   const double nu();
   const double t_max();
 
