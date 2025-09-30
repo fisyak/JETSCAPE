@@ -26,98 +26,121 @@
  namespace Jetscape {
  
  /**
-  * @class JetEnergyLossManager
-  * @brief Manages the jet energy loss tasks.
-  */
+ * @class JetEnergyLossManager
+ * @brief Manager for jet energy loss tasks in the JETSCAPE framework.
+ *
+ * This class manages a collection of jet energy loss tasks, handling their
+ * initialization, execution, clearing, and output writing. It also implements
+ * the signal-slot philosophy to connect tasks such as `JetEnergyLoss` and
+ * `HardProcess` with relevant functions for energy loss and parton list
+ * retrieval.
+ */
  class JetEnergyLossManager
      : public JetScapeTask,
        public std::enable_shared_from_this<JetEnergyLossManager> {
   public:
-   /** 
-    * @brief Default constructor to create a jet energy loss manager.
-    * Sets task ID as "JLossManager". Flag GetHardPartonListConnected is set to false.
-    */
+   /**
+   * @brief Default constructor.
+   *
+   * Creates a JetEnergyLossManager with task ID `"JLossManager"`.
+   * The flag `GetHardPartonListConnected` is set to `false`.
+   */
    JetEnergyLossManager();
  
-   /** 
-    * @brief Destructor for the jet energy loss manager.
-    */
+   /**
+   * @brief Destructor.
+   */
    virtual ~JetEnergyLossManager();
- 
-   /** 
-    * @brief Initializes the tasks attached to the jet energy loss manager.
-    * It also sends a signal to connect the JetEnergyLoss object to the
-    * GetHardPartonList() function of the HardProcess class. It can be overridden
-    * by other tasks.
-    * @sa JetScapeSignalManager to understand the implementation of signal slots philosophy.
-    */
+
+   /**
+   * @brief Initializes attached jet energy loss tasks.
+   *
+   * Sends a signal to connect a `JetEnergyLoss` object to the
+   * `GetHardPartonList()` function of the `HardProcess` class.  
+   * Can be overridden by derived tasks.
+   *
+   * @sa JetScapeSignalManager
+   */
    virtual void Init();
  
-   /** 
-    * @brief Reads the Hard Patrons list and calls CreateSignalSlots() function.
-    * Then, it executes the energy loss tasks attached with the jet energy loss
-    * manager. This function also includes the parallel computing feature. It can
-    * be overridden by other tasks.
-    */
+   /**
+   * @brief Executes the jet energy loss tasks.
+   *
+   * Reads the hard parton list, calls `CreateSignalSlots()`, and executes the
+   * attached energy loss tasks. Supports parallel execution.  
+   * Can be overridden by derived tasks.
+   */
    virtual void Exec();
  
-   /** 
-    * @brief Erases the tasks attached with the energy loss manager.
-    * It can be overridden by other tasks.
-    */
+   /**
+   * @brief Clears attached energy loss tasks.
+   *
+   * Erases all tasks attached to the manager.  
+   * Can be overridden by derived tasks.
+   */
    virtual void Clear();
  
-   /** 
-    * @brief Writes the output information relevant to the jet energy loss
-    * tasks/subtasks into a file. It can be overridden by other tasks.
-    * @param w A pointer of type JetScapeWriter class.
-    * @sa JetScapeWriter class for further information.
-    */
+   /**
+   * @brief Writes output from the jet energy loss tasks.
+   *
+   * Writes output information relevant to energy loss tasks/subtasks into
+   * the given writer.
+   *
+   * @param w Weak pointer to a JetScapeWriter instance.
+   * @sa JetScapeWriter
+   */
    virtual void WriteTask(weak_ptr<JetScapeWriter> w);
  
    /**
-    * @brief Gets the number of signals.
-    * @return The number of signals.
-    */
+   * @brief Get the number of registered signals.
+   * @return Number of signals.
+   */
    int GetNumSignals();
  
-   /** 
-    * @brief Uses philosophy of signal slots. Checks whether the attached task is
-    * connected via signal slots to the functions UpdateEnergyDeposit(),
-    * GetEnergyDensity(), GetHydroCell() (defined in FluidDynamics class), and
-    * DoEnergyLoss() (defined in JetEnergyLoss class). If not, then, it sends a
-    * signal to these functions.
-    * @sa JetScapeSignalManager to understand the implementation of signal slots philosophy.
-    */
+   /**
+   * @brief Create and connect signal slots.
+   *
+   * Ensures that tasks are connected via signals to:
+   * - `UpdateEnergyDeposit()`
+   * - `GetEnergyDensity()`
+   * - `GetHydroCell()` (from the FluidDynamics class)
+   * - `DoEnergyLoss()` (from the JetEnergyLoss class)
+   *
+   * If not connected, sends the required signals.  
+   * Can be extended or overridden by derived tasks.
+   *
+   * @sa JetScapeSignalManager
+   */
    void CreateSignalSlots();
  
-   /** 
-    * @brief A signal to connect the JetEnergyLossManager to the function
-    * GetHardPartonList() of the class HardProcess.
-    */
+   /**
+   * @brief Signal to connect JetEnergyLossManager to HardProcess.
+   *
+   * This signal connects the JetEnergyLossManager to the
+   * `GetHardPartonList()` function of the `HardProcess` class.
+   */
    sigslot::signal1<vector<shared_ptr<Parton>> &> GetHardPartonList;
  
-   /** 
-    * @brief Use the flag m_GetHardPartonListConnected as true, if JetEnergyLossManager
-    * had sent a signal to function GetHardPartonList() of the class HardProcess.
-    * @param m_GetHardPartonListConnected A boolean flag.
-    */
+   /**
+   * @brief Set the connection status of GetHardPartonList.
+   * @param m_GetHardPartonListConnected `true` if the signal was sent to
+   *        `HardProcess::GetHardPartonList()`.
+   */
    void SetGetHardPartonListConnected(bool m_GetHardPartonListConnected) {
      GetHardPartonListConnected = m_GetHardPartonListConnected;
    }
  
-   /** 
-    * @brief Gets the status of GetHardPartonListConnected flag.
-    * @return A boolean flag. Its status indicates whether JetEnergyLossManager had
-    * sent a signal to the function GetHardPartonList() of the class HardProcess.
-    */
+   /**
+   * @brief Get the connection status of GetHardPartonList.
+   * @return `true` if the signal was sent to `HardProcess::GetHardPartonList()`.
+   */
    const bool GetGetHardPartonListConnected() {
      return GetHardPartonListConnected;
    }
  
   private:
    bool GetHardPartonListConnected; ///< Flag indicating if GetHardPartonList is connected.
-   vector<shared_ptr<Parton>> hp; ///< Vector of shared pointers to Parton objects.
+   vector<shared_ptr<Parton>> hp; ///< Hard parton list managed by this class.
  };
  
  }  // end namespace Jetscape
