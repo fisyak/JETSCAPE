@@ -73,10 +73,11 @@ void MpiMusic::InitializeHydro(Parameter parameter_list) {
       (GetXMLElementInt({"Hydro", "MUSIC", "output_evolution_to_memory"}));
   if (flag_output_evo_to_memory == 1) {
     music_hydro_ptr->set_parameter("store_hydro_info_in_memory", 1);
-    music_hydro_ptr->set_parameter(
-        "output_evolution_every_N_timesteps",
-        GetXMLElementInt(
-            {"Hydro", "MUSIC", "output_evolution_every_N_timesteps"}));
+    music_hydro_ptr->set_parameter("output_evolution_every_N_timesteps",
+      GetXMLElementInt({"Hydro", "MUSIC", "output_evolution_every_N_timesteps"})
+    );
+  } else {
+    music_hydro_ptr->set_parameter("store_hydro_info_in_memory", 0);
   }
 
   double tau_hydro =
