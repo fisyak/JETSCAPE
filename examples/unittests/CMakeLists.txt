@@ -23,20 +23,21 @@ endmacro()
 macro(add_unittest name)
   js_add_exe(${name})
   js_add_test(${name} ${name} ${name})
+endmacro()
+
 # macro(add_unittest name source_dir)
 #   js_add_exe(${name} ${source_dir})
 #   js_add_test(${name} ${name} ${name})
 
-endmacro()
 
 # add your unittests after this line
 #include_directories("./src")
 
-#add_unittest(SurfaceFinder src/framework)
-#add_unittest(linear_interpolation ./)
-#add_unittest(fluid_dynamics ./)
-#add_unittest(causal_liquifier ./)
-#add_unittest(LiquifierBase ./)
+# add_unittest(SurfaceFinder src/framework)
+# add_unittest(linear_interpolation ./)
+# add_unittest(fluid_dynamics ./)
+# add_unittest(causal_liquifier ./)
+# add_unittest(LiquifierBase ./)
 
 # Optional: Copy test data files if needed
 # configure_file(src/framework/SurfaceFinderMocks/check_intersect_3D_false_test_input.dat ${CMAKE_BINARY_DIR}/check_intersect_3D_false_test_input.dat COPYONLY)
