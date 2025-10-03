@@ -20,10 +20,12 @@ macro(js_add_exe name source_dir)
 endmacro()
 
 # this is the main func called by developer to add unittests
-
-macro(add_unittest name source_dir)
-   js_add_exe(${name} ${source_dir})
-   js_add_test(${name} ${name} ${name})
+macro(add_unittest name)
+  js_add_exe(${name})
+  js_add_test(${name} ${name} ${name})
+# macro(add_unittest name source_dir)
+#   js_add_exe(${name} ${source_dir})
+#   js_add_test(${name} ${name} ${name})
 
 endmacro()
 
