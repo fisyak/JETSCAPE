@@ -20,15 +20,11 @@ macro(js_add_exe name source_dir)
 endmacro()
 
 # this is the main func called by developer to add unittests
-<<<<<<< HEAD
-macro(add_unittest name)
-  js_add_exe(${name})
-  js_add_test(${name} ${name} ${name})
-=======
+
 macro(add_unittest name source_dir)
    js_add_exe(${name} ${source_dir})
    js_add_test(${name} ${name} ${name})
->>>>>>> origin/211-surfacefinder-class-optim-with-omp
+
 endmacro()
 
 # add your unittests after this line
@@ -46,11 +42,9 @@ add_unittest(LiquifierBase ./)
 
 
 
-<<<<<<< HEAD
+
 add_unittest(linear_interpolation)
 add_unittest(fluid_dynamics)
 add_unittest(causal_liquifier)
 add_unittest(LiquifierBase)
 add_unittest(ThermPtnSampler)
-=======
->>>>>>> origin/211-surfacefinder-class-optim-with-omp
