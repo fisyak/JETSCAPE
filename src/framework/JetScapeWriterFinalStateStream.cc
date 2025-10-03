@@ -361,13 +361,7 @@ void JetScapeWriterFinalStateStream<T>::Init() {
 }
 
 template <class T>
-void JetScapeWriterFinalStateStream<T>::Exec() {
-  // JSINFO<<"Run JetScapeWriterFinalStateStream<T>: Write event #
-  // "<<GetCurrentEvent()<<" ...";
-
-  // if (GetActive())
-  //   WriteEvent();
-}
+void JetScapeWriterFinalStateStream<T>::Exec() {}
 
 template <class T>
 void JetScapeWriterFinalStateStream<T>::Write(weak_ptr<PartonShower> ps) {

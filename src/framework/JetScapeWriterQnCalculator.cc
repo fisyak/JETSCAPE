@@ -261,13 +261,7 @@ void JetScapeWriterQnVectorStream<T>::Init() {
 }
 
 template <class T>
-void JetScapeWriterQnVectorStream<T>::Exec() {
-  // JSINFO<<"Run JetScapeWriterFinalStateStream<T>: Write event #
-  // "<<GetCurrentEvent()<<" ...";
-
-  // if (GetActive())
-  //   WriteEvent();
-}
+void JetScapeWriterQnVectorStream<T>::Exec() {}
 
 template <class T>
 void JetScapeWriterQnVectorStream<T>::Write(weak_ptr<Hadron> h) {
