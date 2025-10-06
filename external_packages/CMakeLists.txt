@@ -6,7 +6,10 @@ cmake_policy(SET CMP0042 NEW)
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "../lib/")
 
-set(SOURCES fjcore.cc tinyxml2.cc cornelius.cpp)
+set(SOURCES fjcore.cc tinyxml2.cc)
+
+# Add the Cornelius.cpp from ./Cornelius
+add_subdirectory(Cornelius)
 
 add_subdirectory(hydro_from_external_file)
 

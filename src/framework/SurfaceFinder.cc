@@ -17,12 +17,12 @@
 
 #include "SurfaceFinder.h"
 
+#include <Cornelius/Cornelius.h>
 #include <cmath>
 
 #include "FluidEvolutionHistory.h"
 #include "JetScapeLogger.h"
 #include "RealType.h"
-#include "cornelius.h"
 
 namespace Jetscape {
 
@@ -51,6 +51,7 @@ void SurfaceFinder::Find_full_hypersurface() {
     Find_full_hypersurface_4D();
   }
 }
+
 /**
  * @brief Checks if the temperature values in the cube intersect the cutoff
  * temperature.
@@ -65,10 +66,10 @@ void SurfaceFinder::Find_full_hypersurface() {
  * @return True if the temperature values intersect the cutoff temperature,
  * false otherwise.
  */
-bool SurfaceFinder::check_intersect_3D(Jetscape::real tau, Jetscape::real x,
-                                       Jetscape::real y, Jetscape::real dt,
-                                       Jetscape::real dx, Jetscape::real dy,
-                                       double ***cube) {
+bool SurfaceFinder::check_intersect_3D(
+    Jetscape::real tau, Jetscape::real x, Jetscape::real y, Jetscape::real dt,
+    Jetscape::real dx, Jetscape::real dy,
+    std::array<std::array<std::array<double, 2>, 2>, 2> &cube) {
   bool intersect = true;
 
   auto tau_low = tau - dt / 2.;
@@ -103,6 +104,7 @@ bool SurfaceFinder::check_intersect_3D(Jetscape::real tau, Jetscape::real x,
 
   return (intersect);
 }
+
 /**
  * @brief Finds and constructs the full hypersurface in a 3D space-time grid.
  *
@@ -120,34 +122,23 @@ void SurfaceFinder::Find_full_hypersurface_3D() {
   auto grid_tauf = bulk_info.TauMax();
   auto grid_x0 = bulk_info.XMin();
   auto grid_y0 = bulk_info.YMin();
-  ;
 
   Jetscape::real grid_dt = 0.1;
   Jetscape::real grid_dx = 0.2;
   Jetscape::real grid_dy = 0.2;
 
   const int dim = 3;
-  double lattice_spacing[dim];
-  lattice_spacing[0] = grid_dt;
-  lattice_spacing[1] = grid_dx;
-  lattice_spacing[2] = grid_dy;
+  std::array<double, 4> lattice_spacing{{grid_dt, grid_dx, grid_dy, 1.0}};
 
   std::unique_ptr<Cornelius> cornelius_ptr(new Cornelius());
-  cornelius_ptr->init(dim, T_cut, lattice_spacing);
+  cornelius_ptr->init_cornelius(dim, T_cut, lattice_spacing);
 
   const int ntime = static_cast<int>((grid_tauf - grid_tau0) / grid_dt);
   const int nx = static_cast<int>(std::abs(2. * grid_x0) / grid_dx);
   const int ny = static_cast<int>(std::abs(2. * grid_y0) / grid_dy);
 
-  double ***cube = new double **[2];
-  for (int i = 0; i < 2; i++) {
-    cube[i] = new double *[2];
-    for (int j = 0; j < 2; j++) {
-      cube[i][j] = new double[2];
-      for (int k = 0; k < 2; k++)
-        cube[i][j][k] = 0.0;
-    }
-  }
+  std::array<std::array<std::array<double, 2>, 2>, 2>
+      cube{};  // zero-initialized 2x2x2 cube
 
   for (int itime = 0; itime < ntime; itime++) {
     // loop over time evolution
@@ -161,17 +152,18 @@ void SurfaceFinder::Find_full_hypersurface_3D() {
                                             grid_dt, grid_dx, grid_dy, cube);
         if (intersect) {
           cornelius_ptr->find_surface_3d(cube);
-          for (int isurf = 0; isurf < cornelius_ptr->get_Nelements(); isurf++) {
-            auto tau_center = (cornelius_ptr->get_centroid_elem(isurf, 0) +
+          for (int isurf = 0; isurf < cornelius_ptr->get_number_elements();
+               isurf++) {
+            auto tau_center = (cornelius_ptr->get_centroid_element(isurf, 0) +
                                tau_local - grid_dt / 2.);
-            auto x_center = (cornelius_ptr->get_centroid_elem(isurf, 1) +
+            auto x_center = (cornelius_ptr->get_centroid_element(isurf, 1) +
                              x_local - grid_dx / 2.);
-            auto y_center = (cornelius_ptr->get_centroid_elem(isurf, 2) +
+            auto y_center = (cornelius_ptr->get_centroid_element(isurf, 2) +
                              y_local - grid_dy / 2.);
 
-            auto da_tau = cornelius_ptr->get_normal_elem(isurf, 0);
-            auto da_x = cornelius_ptr->get_normal_elem(isurf, 1);
-            auto da_y = cornelius_ptr->get_normal_elem(isurf, 2);
+            auto da_tau = cornelius_ptr->get_normal_element(isurf, 0);
+            auto da_x = cornelius_ptr->get_normal_element(isurf, 1);
+            auto da_y = cornelius_ptr->get_normal_element(isurf, 2);
 
             auto fluid_cell =
                 bulk_info.get(tau_center, x_center, y_center, 0.0);
@@ -184,14 +176,8 @@ void SurfaceFinder::Find_full_hypersurface_3D() {
       }
     }
   }
-
-  for (int i = 0; i < 2; i++) {
-    for (int j = 0; j < 2; j++)
-      delete[] cube[i][j];
-    delete[] cube[i];
-  }
-  delete[] cube;
 }
+
 /**
  * @brief Checks for an intersection between the hypersurface and a 4D
  * space-time grid cell.
@@ -212,11 +198,11 @@ void SurfaceFinder::Find_full_hypersurface_3D() {
  * @param cube  4D array to store temperature values at grid points.
  * @return True if an intersection occurs, false otherwise.
  */
-bool SurfaceFinder::check_intersect_4D(Jetscape::real tau, Jetscape::real x,
-                                       Jetscape::real y, Jetscape::real eta,
-                                       Jetscape::real dt, Jetscape::real dx,
-                                       Jetscape::real dy, Jetscape::real deta,
-                                       double ****cube) {
+bool SurfaceFinder::check_intersect_4D(
+    Jetscape::real tau, Jetscape::real x, Jetscape::real y, Jetscape::real eta,
+    Jetscape::real dt, Jetscape::real dx, Jetscape::real dy,
+    Jetscape::real deta,
+    std::array<std::array<std::array<std::array<double, 2>, 2>, 2>, 2> &cube) {
   bool intersect = true;
 
   auto tau_low = tau - dt / 2.;
@@ -274,6 +260,7 @@ bool SurfaceFinder::check_intersect_4D(Jetscape::real tau, Jetscape::real x,
 
   return (intersect);
 }
+
 /**
  * @brief Finds the full hypersurface in 4D space-time by identifying isothermal
  * surfaces.
@@ -308,9 +295,7 @@ void SurfaceFinder::Find_full_hypersurface_4D() {
   auto grid_tauf = bulk_info.TauMax();
   auto grid_x0 = bulk_info.XMin();
   auto grid_y0 = bulk_info.YMin();
-  ;
   auto grid_eta0 = bulk_info.EtaMin();
-  ;
 
   Jetscape::real grid_dt = 0.1;
   Jetscape::real grid_dx = 0.2;
@@ -318,33 +303,18 @@ void SurfaceFinder::Find_full_hypersurface_4D() {
   Jetscape::real grid_deta = 0.2;
 
   const int dim = 4;
-  double lattice_spacing[dim];
-  lattice_spacing[0] = grid_dt;
-  lattice_spacing[1] = grid_dx;
-  lattice_spacing[2] = grid_dy;
-  lattice_spacing[3] = grid_deta;
+  std::array<double, 4> lattice_spacing{{grid_dt, grid_dx, grid_dy, grid_deta}};
 
   std::unique_ptr<Cornelius> cornelius_ptr(new Cornelius());
-  cornelius_ptr->init(dim, T_cut, lattice_spacing);
+  cornelius_ptr->init_cornelius(dim, T_cut, lattice_spacing);
 
   const int ntime = static_cast<int>((grid_tauf - grid_tau0) / grid_dt);
   const int nx = static_cast<int>(std::abs(2. * grid_x0) / grid_dx);
   const int ny = static_cast<int>(std::abs(2. * grid_y0) / grid_dy);
   const int neta = static_cast<int>(std::abs(2. * grid_eta0) / grid_deta);
 
-  double ****cube = new double ***[2];
-  for (int i = 0; i < 2; i++) {
-    cube[i] = new double **[2];
-    for (int j = 0; j < 2; j++) {
-      cube[i][j] = new double *[2];
-      for (int k = 0; k < 2; k++) {
-        cube[i][j][k] = new double[2];
-        for (int l = 0; l < 2; l++) {
-          cube[i][j][k][l] = 0.0;
-        }
-      }
-    }
-  }
+  std::array<std::array<std::array<std::array<double, 2>, 2>, 2>, 2>
+      cube{};  // zero-initialized 2x2x2x2 cube
 
   for (int itime = 0; itime < ntime; itime++) {
     // loop over time evolution
@@ -362,21 +332,21 @@ void SurfaceFinder::Find_full_hypersurface_4D() {
                                  grid_dt, grid_dx, grid_dy, grid_deta, cube);
           if (intersect) {
             cornelius_ptr->find_surface_4d(cube);
-            for (int isurf = 0; isurf < cornelius_ptr->get_Nelements();
+            for (int isurf = 0; isurf < cornelius_ptr->get_number_elements();
                  isurf++) {
-              auto tau_center = (cornelius_ptr->get_centroid_elem(isurf, 0) +
+              auto tau_center = (cornelius_ptr->get_centroid_element(isurf, 0) +
                                  tau_local - grid_dt / 2.);
-              auto x_center = (cornelius_ptr->get_centroid_elem(isurf, 1) +
+              auto x_center = (cornelius_ptr->get_centroid_element(isurf, 1) +
                                x_local - grid_dx / 2.);
-              auto y_center = (cornelius_ptr->get_centroid_elem(isurf, 2) +
+              auto y_center = (cornelius_ptr->get_centroid_element(isurf, 2) +
                                y_local - grid_dy / 2.);
-              auto eta_center = (cornelius_ptr->get_centroid_elem(isurf, 3) +
+              auto eta_center = (cornelius_ptr->get_centroid_element(isurf, 3) +
                                  eta_local - grid_deta / 2.);
 
-              auto da_tau = (cornelius_ptr->get_normal_elem(isurf, 0));
-              auto da_x = (cornelius_ptr->get_normal_elem(isurf, 1));
-              auto da_y = (cornelius_ptr->get_normal_elem(isurf, 2));
-              auto da_eta = (cornelius_ptr->get_normal_elem(isurf, 3));
+              auto da_tau = (cornelius_ptr->get_normal_element(isurf, 0));
+              auto da_x = (cornelius_ptr->get_normal_element(isurf, 1));
+              auto da_y = (cornelius_ptr->get_normal_element(isurf, 2));
+              auto da_eta = (cornelius_ptr->get_normal_element(isurf, 3));
 
               auto fluid_cell =
                   bulk_info.get(tau_center, x_center, y_center, eta_center);
@@ -390,18 +360,8 @@ void SurfaceFinder::Find_full_hypersurface_4D() {
       }
     }
   }
-
-  for (int i = 0; i < 2; i++) {
-    for (int j = 0; j < 2; j++) {
-      for (int k = 0; k < 2; k++) {
-        delete[] cube[i][j][k];
-      }
-      delete[] cube[i][j];
-    }
-    delete[] cube[i];
-  }
-  delete[] cube;
 }
+
 /**
  * @brief Prepares a SurfaceCellInfo object containing surface and fluid
  * properties.
