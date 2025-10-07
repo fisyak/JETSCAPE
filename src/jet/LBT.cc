@@ -1078,8 +1078,7 @@ void LBT::LBT0(int &n, double &ti) {
         pc0[0] = P[0][i];
         double Vitual = pc0[0] * pc0[0] - (pc0[1] * pc0[1] + pc0[2] * pc0[2] +
                                       pc0[3] * pc0[3]);
-        if (Vitual < 0.0) {JSWARN << "Negative virtuality: " << Vitual;
-        }
+        if (Vitual < 0.0) {Vitual =  0.0;} //JSWARN << "Negative virtuality: " << Vitual;
 
         trans(vc0, pc0);
         E = pc0[0]; //  p4-the initial 4-momentum of the jet parton in the local rest frame
