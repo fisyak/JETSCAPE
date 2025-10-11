@@ -146,6 +146,7 @@ void Matter::Init() {
   initial_virtuality_pT = GetXMLElementInt({"Eloss", "Matter", "initial_virtuality_pT"});
 
   ModificationFactor = GetXMLElementDouble({"Eloss", "ModificationFactor"});
+  ModificationCorr = 1.0;
 
   if(vir_factor < 0.0) {
     JSWARN << "vir_factor should not be negative";

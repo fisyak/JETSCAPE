@@ -340,7 +340,7 @@ void LBT::Init() {
   hydro_Tc = GetXMLElementDouble({"Eloss", "Lbt", "hydro_Tc"});
   tStart = GetXMLElementDouble({"Eloss", "tStart"});
   ModificationFactor = GetXMLElementDouble({"Eloss", "ModificationFactor"});
-
+  ModificationCorr = 1.0;
   filename = GetXMLElementText({"Eloss", "Lbt", "filename"});
   enter_pid = GetXMLElementInt({"Eloss", "Lbt", "enter_pid"});
   enter_temp = GetXMLElementDouble({"Eloss", "Lbt", "enter_temp"});
