@@ -5,10 +5,12 @@ on:
     branches:
       - main
       - JETSCAPE-4.0-RC
+      - latessa/add_optimized_surfacefinder
   push:
     branches:
       - main
       - JETSCAPE-4.0-RC
+      - latessa/add_optimized_surfacefinder
 
 env:
   REPO_NAME: ${{ github.event.repository.name }}
