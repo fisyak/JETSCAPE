@@ -18,6 +18,7 @@
 #include "SurfaceFinder.h"
 
 #include <Cornelius/Cornelius.h>
+using JetscapeCornelius::Cornelius;
 #include <cmath>
 
 #include "FluidEvolutionHistory.h"

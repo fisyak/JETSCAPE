@@ -5,6 +5,8 @@
 #include <array>
 #include <numeric>
 
+namespace JetscapeCornelius {
+
 /**
  * @class GeneralGeometryElement
  * @brief A class representing a general geometric element with normal and
@@ -106,5 +108,7 @@ class GeneralGeometryElement {
     }
   }
 };
+
+}  // namespace JetscapeCornelius
 
 #endif  // GENERAL_GEOMETRY_ELEMENT_H

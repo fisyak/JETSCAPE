@@ -1,5 +1,7 @@
 #include "Cube.h"
 
+namespace JetscapeCornelius {
+
 Cube::Cube() : number_lines(0), number_polygons(0), ambiguous(false) {
   polygons.clear();
   polygons.reserve(MAX_POLYGONS);
@@ -111,3 +113,5 @@ void Cube::construct_polygons(double value) {
     number_polygons++;
   }
 }
+
+}  // namespace JetscapeCornelius

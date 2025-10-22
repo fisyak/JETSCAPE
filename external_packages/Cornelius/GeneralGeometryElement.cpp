@@ -1,5 +1,7 @@
 #include "GeneralGeometryElement.h"
 
+namespace JetscapeCornelius {
+
 GeneralGeometryElement::GeneralGeometryElement()
     : normal_calculated(false), centroid_calculated(false) {}
 
@@ -12,3 +14,5 @@ void GeneralGeometryElement::calculate_normal() {
 void GeneralGeometryElement::calculate_centroid() {
   // Provide implementation in derived classes
 }
+
+}  // namespace JetscapeCornelius

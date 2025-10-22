@@ -11,6 +11,8 @@
 #include "Polygon.h"
 #include "Square.h"
 
+namespace JetscapeCornelius {
+
 /**
  * @class Cube
  * @brief Represents a cube in a geometric space, derived from
@@ -152,5 +154,7 @@ class Cube : public GeneralGeometryElement {
    */
   inline std::vector<Polygon>& get_polygons() { return polygons; }
 };
+
+}  // namespace JetscapeCornelius
 
 #endif  // CUBE_H

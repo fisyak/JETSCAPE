@@ -11,6 +11,8 @@
 #include "Line.h"
 #include "Polygon.h"
 
+namespace JetscapeCornelius {
+
 /**
  * @class Polyhedron
  * @brief Represents a polyhedron composed of multiple polygons.
@@ -165,5 +167,7 @@ class Polyhedron : public GeneralGeometryElement {
    */
   inline int get_number_tetrahedrons() { return number_tetrahedrons; }
 };
+
+}  // namespace JetscapeCornelius
 
 #endif  // POLYHEDRON_H

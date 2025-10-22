@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+namespace JetscapeCornelius {
+
 Polygon::Polygon() {
   lines.clear();
   lines.reserve(MAX_LINES);
@@ -138,3 +140,5 @@ void Polygon::print(std::ofstream& file, std::array<double, DIM> position) {
          << " " << position[x3] + centroid[x3] << std::endl;
   }
 }
+
+}  // namespace JetscapeCornelius
