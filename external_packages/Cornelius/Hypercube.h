@@ -10,6 +10,8 @@
 #include "GeneralGeometryElement.h"
 #include "Polyhedron.h"
 
+namespace JetscapeCornelius {
+
 /**
  * @class Hypercube
  * @brief A class representing a 4-dimensional hypercube for geometric
@@ -131,5 +133,7 @@ class Hypercube : public GeneralGeometryElement {
    */
   inline bool is_ambiguous() { return ambiguous; }
 };
+
+}  // namespace JetscapeCornelius
 
 #endif  // HYPERCUBE_H

@@ -1,5 +1,7 @@
 #include "Cornelius.h"
 
+namespace JetscapeCornelius {
+
 Cornelius::Cornelius()
     : number_elements(0),
       cube_dimension(0),
@@ -167,3 +169,5 @@ double Cornelius::get_normal_element(int index_surface_element,
   return normals[index_surface_element]
                 [element_normal + (DIM - cube_dimension)];
 }
+
+}  // namespace JetscapeCornelius

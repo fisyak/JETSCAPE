@@ -1,5 +1,7 @@
 #include "Hypercube.h"
 
+namespace JetscapeCornelius {
+
 Hypercube::Hypercube() : number_polyhedra(0), ambiguous(false) {
   polyhedra.clear();
   polyhedra.reserve(MAX_POLYHEDRONS);
@@ -97,3 +99,5 @@ void Hypercube::construct_polyhedra(double value) {
     number_polyhedra++;
   }
 }
+
+}  // namespace JetscapeCornelius

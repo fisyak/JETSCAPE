@@ -1,5 +1,7 @@
 #include "Square.h"
 
+namespace JetscapeCornelius {
+
 Square::Square() : ambiguous(false), number_cuts(0), number_lines(0) {}
 
 Square::~Square() = default;
@@ -200,3 +202,5 @@ void Square::find_outside(double value) {
     }
   }
 }
+
+}  // namespace JetscapeCornelius

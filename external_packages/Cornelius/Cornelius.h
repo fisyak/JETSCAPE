@@ -46,6 +46,8 @@
 #include "Hypercube.h"
 #include "Square.h"
 
+namespace JetscapeCornelius {
+
 /**
  *
  * A class for finding a constant value surface from a 2-4 dimensional
@@ -223,5 +225,7 @@ class Cornelius : public GeneralGeometryElement {
    */
   double get_normal_element(int index_surface_element, int element_normal);
 };
+
+}  // namespace JetscapeCornelius
 
 #endif  // CORNELIUS_H

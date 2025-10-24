@@ -11,6 +11,8 @@
 #include "GeneralGeometryElement.h"
 #include "Line.h"
 
+namespace JetscapeCornelius {
+
 /**
  * @class Polygon
  * @brief A class representing a polygon in a geometric space.
@@ -143,5 +145,7 @@ class Polygon : public GeneralGeometryElement {
    */
   void print(std::ofstream& file, std::array<double, DIM> position);
 };
+
+}  // namespace JetscapeCornelius
 
 #endif  // POLYGON_H

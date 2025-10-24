@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+namespace JetscapeCornelius {
+
 Polyhedron::Polyhedron() {
   polygons.clear();
   polygons.reserve(MAX_POLYGONS);
@@ -124,3 +126,5 @@ void Polyhedron::calculate_normal() {
   }
   normal_calculated = true;
 }
+
+}  // namespace JetscapeCornelius

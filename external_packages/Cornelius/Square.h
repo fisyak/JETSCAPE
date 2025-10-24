@@ -9,6 +9,8 @@
 #include "GeneralGeometryElement.h"
 #include "Line.h"
 
+namespace JetscapeCornelius {
+
 /**
  * @class Square
  * @brief A class representing a square element.
@@ -135,5 +137,7 @@ class Square : public GeneralGeometryElement {
    */
   inline std::array<Line, MAX_LINES>& get_lines() { return lines; }
 };
+
+}  // namespace JetscapeCornelius
 
 #endif  // SQUARE_H

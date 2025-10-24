@@ -6,6 +6,8 @@
 
 #include "GeneralGeometryElement.h"
 
+namespace JetscapeCornelius {
+
 /**
  * @class Line
  * @brief Represents a line in a geometric space, derived from
@@ -156,5 +158,7 @@ class Line : public GeneralGeometryElement {
     return out;
   }
 };
+
+}  // namespace JetscapeCornelius
 
 #endif  // LINE_H

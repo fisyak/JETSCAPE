@@ -11,6 +11,8 @@
 #include <Cornelius/Cornelius.h>
 #include <array>
 #include <memory>
+using JetscapeCornelius::Cornelius;
+ 
 
 using namespace std;
 
