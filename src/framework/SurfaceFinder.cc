@@ -64,6 +64,7 @@ void SurfaceFinder::Find_full_hypersurface() {
     std::chrono::duration<double> elapsed_seconds = end - start;
     JSINFO << "3D Time to find the hypersurface: " << elapsed_seconds.count()
            << " s";
+    WriteSurfaceToFile(surface_cell_list, filename);
   } else {
     JSINFO << "Finding a 3+1D hyper-surface at T = " << T_cut << " GeV ...";
     auto start = std::chrono::high_resolution_clock::now();
@@ -72,8 +73,8 @@ void SurfaceFinder::Find_full_hypersurface() {
     std::chrono::duration<double> elapsed_seconds = end - start;
     JSINFO << "4D Time to find the hypersurface: " << elapsed_seconds.count()
            << " s";
+    WriteSurfaceToFile(surface_cell_list, filename);
   }
-  WriteSurfaceToFile(surface_cell_list, "hypersurface_output.dat");
 }
 
 /**
@@ -154,9 +155,6 @@ void SurfaceFinder::Find_full_hypersurface_3D() {
   const int dim = 3;
   std::array<double, 4> lattice_spacing{{grid_dt, grid_dx, grid_dy, 1.0}};
 
-  std::unique_ptr<Cornelius> cornelius_ptr(new Cornelius());
-  cornelius_ptr->init_cornelius(dim, T_cut, lattice_spacing);
-
   const int ntime = static_cast<int>((grid_tauf - grid_tau0) / grid_dt);
   const int nx = static_cast<int>(std::abs(2. * grid_x0) / grid_dx);
   const int ny = static_cast<int>(std::abs(2. * grid_y0) / grid_dy);
@@ -169,6 +167,9 @@ void SurfaceFinder::Find_full_hypersurface_3D() {
   {
     std::array<std::array<std::array<double, 2>, 2>, 2>
         cube{};  // zero-initialized 2x2x2 cube
+
+    std::unique_ptr<Cornelius> cornelius_ptr(new Cornelius());
+    cornelius_ptr->init_cornelius(dim, T_cut, lattice_spacing);
 
 #pragma omp for collapse(3)
     for (int itime = 0; itime < ntime; itime++) {
@@ -347,9 +348,6 @@ void SurfaceFinder::Find_full_hypersurface_4D() {
   const int dim = 4;
   std::array<double, 4> lattice_spacing{{grid_dt, grid_dx, grid_dy, grid_deta}};
 
-  std::unique_ptr<Cornelius> cornelius_ptr(new Cornelius());
-  cornelius_ptr->init_cornelius(dim, T_cut, lattice_spacing);
-
   const int ntime = static_cast<int>((grid_tauf - grid_tau0) / grid_dt);
   const int nx = static_cast<int>(std::abs(2. * grid_x0) / grid_dx);
   const int ny = static_cast<int>(std::abs(2. * grid_y0) / grid_dy);
@@ -364,7 +362,11 @@ void SurfaceFinder::Find_full_hypersurface_4D() {
     std::array<std::array<std::array<std::array<double, 2>, 2>, 2>, 2>
         cube{};  // zero-initialized 2x2x2x2 cube
 
+    std::unique_ptr<Cornelius> cornelius_ptr(new Cornelius());
+    cornelius_ptr->init_cornelius(dim, T_cut, lattice_spacing);
+
 #pragma omp for collapse(4)
+
     for (int itime = 0; itime < ntime; itime++) {
       for (int l = 0; l < neta; l++) {
         for (int i = 0; i < nx; i++) {
