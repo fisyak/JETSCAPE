@@ -57,7 +57,13 @@ void Hypercube::construct_polyhedra(double value) {
       polygon_refs[number_polygons++] = &polygons_cube[j];
     }
   }
-  check_ambiguity(value);
+
+  check_ambiguity(number_points_below_value);
+
+  if (number_polygons == 0) {
+    return;
+  }
+
   if (ambiguous) {
     // The surface might be ambiguous and we need to connect the polygons and
     // see how many polyhedra we have
