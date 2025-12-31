@@ -17,12 +17,6 @@
 #ifndef JETSCAPE_H
 #define JETSCAPE_H
 
-#if defined(__linux__)
-#include <sys/sysinfo.h>
-#include <sys/utsname.h>
-#include <unistd.h>
-#endif
-
 #include "CausalLiquefier.h"
 #include "JetScapeLogger.h"
 #include "JetScapeModuleBase.h"
@@ -140,13 +134,6 @@ class JetScape : public JetScapeModuleBase {
   inline unsigned int GetNReuseHydro() const { return n_reuse_hydro_; }
 
  protected:
-#if defined(__linux__)
-  /**
-   * @brief Print hardware information.
-   */
-  void PrintHardwareInfo();
-#endif
-
   /**
    * @brief Compare XML configuration elements.
    *
