@@ -58,22 +58,10 @@ void SurfaceFinder::Find_full_hypersurface() {
 
   if (boost_invariant) {
     JSINFO << "Finding a 2+1D hyper-surface at T = " << T_cut << " GeV ...";
-    auto start = std::chrono::high_resolution_clock::now();
     Find_full_hypersurface_3D();
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed_seconds = end - start;
-    JSINFO << "3D Time to find the hypersurface: " << elapsed_seconds.count()
-           << " s";
-    WriteSurfaceToFile(surface_cell_list, filename);
   } else {
     JSINFO << "Finding a 3+1D hyper-surface at T = " << T_cut << " GeV ...";
-    auto start = std::chrono::high_resolution_clock::now();
     Find_full_hypersurface_4D();
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed_seconds = end - start;
-    JSINFO << "4D Time to find the hypersurface: " << elapsed_seconds.count()
-           << " s";
-    WriteSurfaceToFile(surface_cell_list, filename);
   }
 }
 
