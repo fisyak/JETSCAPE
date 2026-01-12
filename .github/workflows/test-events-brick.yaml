@@ -5,11 +5,12 @@ on:
     branches:
       - main
       - JETSCAPE-4.0-RC
+      - parallel_surfacefinder_new_cornelius_rc
   push:
     branches:
       - main
       - JETSCAPE-4.0-RC
-
+      - parallel_surfacefinder_new_cornelius_rc
 env:
   REPO_NAME: ${{ github.event.repository.name }}
 
