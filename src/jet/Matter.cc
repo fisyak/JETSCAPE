@@ -3866,8 +3866,7 @@ double Matter::fillQhatTab(double y) {
       qhatLoc = 0.0;
     }
 
-    qhatTab1D[i] =
-        qhatLoc / sqrt(2.0); // store qhat value in light cone coordinate
+    qhatTab1D[i] = qhatLoc / sqrt(2.0); // store qhat value in light cone coordinate
   }
 
   for (int i = 0; i < dimQhatTab; i++) { // dim of loc
@@ -3892,6 +3891,11 @@ double Matter::GeneralQhatFunction(int QhatParametrization, double Temperature, 
 {
   int ActiveFlavor=3; qhat=0.0;
   double DebyeMassSquare = FixAlphas*4*pi*pow(Temperature,2.0)*(6.0 + ActiveFlavor)/6.0;
+  if (ModificationFactor > 0.0)
+  {
+      ModificationCorr = 1.0 + 1.0 / ModificationFactor / Temperature;
+      DebyeMassSquare = DebyeMassSquare / pow(ModificationCorr,2.0);
+  }
   double ScaleNet=2*E*Temperature;
   if(ScaleNet < 1.0){ ScaleNet=1.0; }
   switch(QhatParametrization)
@@ -3944,6 +3948,10 @@ double Matter::GeneralQhatFunction(int QhatParametrization, double Temperature, 
 
     default:
       JSINFO<<"q-hat Parametrization "<<QhatParametrization<<" is not used, qhat will be set to zero";
+    }
+    if (ModificationFactor > 0.0) {
+      ModificationCorr = 1.0 + 1.0 / ModificationFactor / Temperature;
+      qhat = qhat / pow(ModificationCorr, 3.0);
     }
   return qhat;
 }
