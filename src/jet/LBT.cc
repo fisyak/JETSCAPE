@@ -703,7 +703,7 @@ void LBT::LBT0(int &n, double &ti) {
 
         if (hydro_ctl0 == 0 && temp00 >= hydro_Tc) {
           qhat00 = DebyeMass2(Kqhat0, alphas, temp00);
-          if (ModificationFactor > 0.0){
+          if (ModificationFactor > 0.0) {
             ModificationCorr = 1.0 + 1.0 / ModificationFactor / temp00;
             qhat00 /= pow(ModificationCorr, 2.0);
           }
@@ -821,7 +821,7 @@ void LBT::LBT0(int &n, double &ti) {
             alphas = alphas0(Kalphas, temp0);
             //...Debye Mass square
             qhat0 = DebyeMass2(Kqhat0, alphas, temp0);
-            if (ModificationFactor > 0.0){
+            if (ModificationFactor > 0.0) {
               ModificationCorr = 1.0 + 1.0 / ModificationFactor / temp0;
               qhat0 /= pow(ModificationCorr, 2.0);
             }
@@ -876,42 +876,48 @@ void LBT::LBT0(int &n, double &ti) {
         pc0[2] = P[2][i];
         pc0[3] = P[3][i];
         pc0[0] = P[0][i];
-        double Vitual = pc0[0] * pc0[0] - (pc0[1] * pc0[1] + pc0[2] * pc0[2] +
-                                      pc0[3] * pc0[3]);
-        if (Vitual < 0.0) {Vitual =  0.0;} //JSWARN << "Negative virtuality: " << Vitual;
+        double Vitual = pc0[0] * pc0[0] -
+                        (pc0[1] * pc0[1] + pc0[2] * pc0[2] + pc0[3] * pc0[3]);
+        if (Vitual < 0.0) {
+          Vitual = 0.0;
+        }  // JSWARN << "Negative virtuality: " << Vitual;
 
         trans(vc0, pc0);
-        E = pc0[0]; //  p4-the initial 4-momentum of the jet parton in the local rest frame
+        E = pc0[0];  //  p4-the initial 4-momentum of the jet parton in the
+                     //  local rest frame
         PLen = sqrt(pc0[1] * pc0[1] + pc0[2] * pc0[2] + pc0[3] * pc0[3]);
         transback(vc0, pc0);
 
         T = temp0;
         KATTC0 = KATT1[i];
 
-        //              if(E<T) preKT=4.0*pi/9.0/log(scaleAK*T*T/0.04)/alphas/fixKT;
-        //              else preKT=4.0*pi/9.0/log(scaleAK*E*T/0.04)/alphas/fixKT;
+        //              if(E<T)
+        //              preKT=4.0*pi/9.0/log(scaleAK*T*T/0.04)/alphas/fixKT;
+        //              else
+        //              preKT=4.0*pi/9.0/log(scaleAK*E*T/0.04)/alphas/fixKT;
 
-        if(run_alphas==1) {
-            //runKT=4.0*pi/9.0/log(2.0*E*T/0.04)/0.3;
-            fixedLog = log(5.7*E/4.0/6.0/pi/0.3/T);
-            scaleMu2 = 2.0*E*T;
-            if(scaleMu2 < 1.0) {
-                scaleMu2 = 1.0;
-                runAlphas = alphas;
-            } else {
-                double lambdaQCD2 = exp(-4.0*pi/9.0/alphas);
-                runAlphas = 4.0*pi/9.0/log(scaleMu2/lambdaQCD2);
-            }
-            runKT = runAlphas/0.3;
-            
-            if (ModificationFactor > 0.0){
-              ModificationCorr = 1.0 + 1.0 / ModificationFactor / T;
-              runLog = log(scaleMu2 * pow(ModificationCorr, 2.0) /6.0/pi/T/T/alphas)/fixedLog;
-            }
-            else{
-              runLog = log(scaleMu2/6.0/pi/T/T/alphas)/fixedLog;
-            }
-        }    
+        if (run_alphas == 1) {
+          // runKT=4.0*pi/9.0/log(2.0*E*T/0.04)/0.3;
+          fixedLog = log(5.7 * E / 4.0 / 6.0 / pi / 0.3 / T);
+          scaleMu2 = 2.0 * E * T;
+          if (scaleMu2 < 1.0) {
+            scaleMu2 = 1.0;
+            runAlphas = alphas;
+          } else {
+            double lambdaQCD2 = exp(-4.0 * pi / 9.0 / alphas);
+            runAlphas = 4.0 * pi / 9.0 / log(scaleMu2 / lambdaQCD2);
+          }
+          runKT = runAlphas / 0.3;
+
+          if (ModificationFactor > 0.0) {
+            ModificationCorr = 1.0 + 1.0 / ModificationFactor / T;
+            runLog = log(scaleMu2 * pow(ModificationCorr, 2.0) / 6.0 / pi / T /
+                         T / alphas) /
+                     fixedLog;
+          } else {
+            runLog = log(scaleMu2 / 6.0 / pi / T / T / alphas) / fixedLog;
+          }
+        }
 
         lam(KATTC0, RTE, PLen, T, T1, T2, E1, E2, iT1, iT2, iE1,
             iE2);  // modified: use P instead
@@ -927,20 +933,23 @@ void LBT::LBT0(int &n, double &ti) {
           Kfactor = KPfactor * KTfactor * KTfactor * runKT * preKT *
                     runLog;  // K factor for qhat
         } else {
-           Kfactor = KPfactor * KTfactor * KTfactor * preKT * preKT; // K factor for qhat
-          if (ModificationFactor > 0.0){
+          Kfactor = KPfactor * KTfactor * KTfactor * preKT *
+                    preKT;  // K factor for qhat
+          if (ModificationFactor > 0.0) {
             ModificationCorr = 1.0 + 1.0 / ModificationFactor / T;
-            fixedLog = log(5.7*E/4.0/6.0/pi/0.3/T);
+            fixedLog = log(5.7 * E / 4.0 / 6.0 / pi / 0.3 / T);
             if (KATTC0 == 21) {
-              runLog = log(5.6 * E * pow(ModificationCorr, 1.0) /4.0/6.0/pi/0.3/T) / fixedLog;
+              runLog = log(5.6 * E * pow(ModificationCorr, 1.0) / 4.0 / 6.0 /
+                           pi / 0.3 / T) /
+                       fixedLog;
             } else {
-              runLog = log(5.8 * E * pow(ModificationCorr, 1.0) /4.0/6.0/pi/0.3/T) / fixedLog;
+              runLog = log(5.8 * E * pow(ModificationCorr, 1.0) / 4.0 / 6.0 /
+                           pi / 0.3 / T) /
+                       fixedLog;
             }
-            Kfactor *= runLog; // K factor for qhat
+            Kfactor *= runLog;  // K factor for qhat
           }
         }
-
-       
 
         // get qhat from table
         if (KATTC0 == 21) {
@@ -964,9 +973,9 @@ void LBT::LBT0(int &n, double &ti) {
 
         qhatTP = qhatTP * Kfactor;
 
-        if (ModificationFactor > 0.0){
+        if (ModificationFactor > 0.0) {
           ModificationCorr = 1.0 + 1.0 / ModificationFactor / T;
-          qhatTP = qhatTP / pow(ModificationCorr, 3.0); 
+          qhatTP = qhatTP / pow(ModificationCorr, 3.0);
         }
 
         ////reset by hand for unit test
@@ -1570,7 +1579,8 @@ void LBT::read_tables() {  // intialize various tables for LBT
     ifstream f14("LBT-tables/dNg_over_dt_gD6.dat");
     ifstream f15("LBT-tables/dNg_over_dt_qD7.dat");
     ifstream f16("LBT-tables/dNg_over_dt_gD7.dat");
-    if (!f12.is_open() || !f13.is_open() || !f14.is_open()||!f15.is_open() || !f16.is_open()) {
+    if (!f12.is_open() || !f13.is_open() || !f14.is_open() || !f15.is_open() ||
+        !f16.is_open()) {
       cout << "Erro openning HQ radiation table file!\n";
       exit(EXIT_FAILURE);
     } else {
@@ -1590,11 +1600,10 @@ void LBT::read_tables() {  // intialize various tables for LBT
           max_dNgfnc_q[k + 1][i][0] = 0.0;
           max_dNgfnc_g[k + 1][i][0] = 0.0;
           for (int j = 1; j <= HQener_gn; j++) {
-            if (i <= 6){
+            if (i <= 6) {
               f15 >> dNg_over_dt_q[k + 1][i][j] >> max_dNgfnc_q[k + 1][i][j];
               f16 >> dNg_over_dt_g[k + 1][i][j] >> max_dNgfnc_g[k + 1][i][j];
-            }
-            else{
+            } else {
               f12 >> dNg_over_dt_c[k + 1][i][j] >> max_dNgfnc_c[k + 1][i][j];
               f13 >> dNg_over_dt_q[k + 1][i][j] >> max_dNgfnc_q[k + 1][i][j];
               f14 >> dNg_over_dt_g[k + 1][i][j] >> max_dNgfnc_g[k + 1][i][j];
@@ -1865,9 +1874,9 @@ void LBT::lam(int KATT0, double &RTE, double E, double T, double &T1,
     //          cout<<"RTE2,RTE1,E,E1,E2,RTE: "<<RTE2<<"  "<<RTE1<<"  "<<E<<"
     //          "<<E1<<"  "<<E2<<"  "<<RTE<<endl;
   }
-  if (ModificationFactor > 0.0){
-       ModificationCorr = 1.0 + 1.0 / ModificationFactor / T;
-       RTE /= ModificationCorr;
+  if (ModificationFactor > 0.0) {
+    ModificationCorr = 1.0 + 1.0 / ModificationFactor / T;
+    RTE /= ModificationCorr;
   }
 }
 
@@ -2130,19 +2139,19 @@ void LBT::linear(int KATT, double E, double T, double &T1, double &T2,
     //	  RTE2=(qhatLQ[iT2][iE2]-qhatLQ[iT1][iE2])*(T-T1)/(T2-T1)+qhatLQ[iT1][iE2];
     //	  qhatTP=(RTE2-RTE1)*(E-E1)/(E2-E1)+RTE1;
   }
-  if (ModificationFactor > 0.0){
-       ModificationCorr = 1.0 + 1.0 / ModificationFactor / T;
-       RTEg1 /= ModificationCorr;
-       RTEg2 /= ModificationCorr;
-       RTEg3 /= ModificationCorr;
-       RTEq3 /= ModificationCorr;
-       RTEq4 /= ModificationCorr;
-       RTEq5 /= ModificationCorr;
-       RTEq6 /= ModificationCorr;
-       RTEq7 /= ModificationCorr;
-       RTEq8 /= ModificationCorr;
-       RTEHQ11 /= ModificationCorr;
-       RTEHQ12 /= ModificationCorr;
+  if (ModificationFactor > 0.0) {
+    ModificationCorr = 1.0 + 1.0 / ModificationFactor / T;
+    RTEg1 /= ModificationCorr;
+    RTEg2 /= ModificationCorr;
+    RTEg3 /= ModificationCorr;
+    RTEq3 /= ModificationCorr;
+    RTEq4 /= ModificationCorr;
+    RTEq5 /= ModificationCorr;
+    RTEq6 /= ModificationCorr;
+    RTEq7 /= ModificationCorr;
+    RTEq8 /= ModificationCorr;
+    RTEHQ11 /= ModificationCorr;
+    RTEHQ12 /= ModificationCorr;
   }
 }
 
@@ -2494,14 +2503,14 @@ void LBT::colljet22(int CT, double temp, double qhat0ud, double v0[4],
 
     double f1max_y = 1.4215;
     double f2max_y = 1.2845;
-    if (ModificationFactor > 0.0){
+    if (ModificationFactor > 0.0) {
       ModificationCorr = 1.0 + 1.0 / ModificationFactor / temp;
       f1max_y /= pow(ModificationCorr, 3.0);
       f2max_y /= pow(ModificationCorr, 3.0);
     }
     f1 = pow(xw, 3) / (exp(xw) - 1) / f1max_y;
     f2 = pow(xw, 3) / (exp(xw) + 1) / f2max_y;
- 
+
     uu = ss - tt;
 
     if (CT == 1) {
