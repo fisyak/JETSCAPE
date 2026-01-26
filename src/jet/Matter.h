@@ -185,6 +185,8 @@ class Matter : public JetEnergyLossModule<
   double Mqc2qc(double s, double t, double M);
   void collHQ22(int CT, double temp, double qhat0ud, double v0[4], double p0[4],
                 double p2[4], double p3[4], double p4[4], double &qt);
+  double ModificationCorr;
+  double ModificationFactor;
 
  protected:
   uniform_real_distribution<double> ZeroOneDistribution;
