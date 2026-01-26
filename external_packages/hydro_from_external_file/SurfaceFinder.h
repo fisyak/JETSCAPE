@@ -35,7 +35,8 @@ class SurfaceFinder {
     ~SurfaceFinder();
 
     bool check_intersect(double T_cut, double tau, double x, double y,
-                         double dt, double dx, double dy, double ***cube);
+                         double dt, double dx, double dy,
+                         std::array<std::array<std::array<double, 2>, 2>, 2> &cube);
     int Find_full_hypersurface();
 };
 
