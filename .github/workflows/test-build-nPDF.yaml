@@ -4,13 +4,13 @@ on:
   pull_request:
     branches:
       - main
-      - JETSCAPE-4.0-RC
+      - JETSCAPE-4.0.1-RC
       - parallel_surfacefinder_new_cornelius_rc
       - latessa/rMatter_test
   push:
     branches:
       - main
-      - JETSCAPE-4.0-RC
+      - JETSCAPE-4.0.1-RC
       - parallel_surfacefinder_new_cornelius_rc
       - latessa/rMatter_test
 
