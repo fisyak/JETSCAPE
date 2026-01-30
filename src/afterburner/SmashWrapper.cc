@@ -22,6 +22,7 @@
 #include <filesystem>
 #include <string>
 
+#include "smash/input_keys.h"
 #include "smash/library.h"
 #include "smash/particles.h"
 
@@ -40,20 +41,22 @@ void SmashWrapper::InitTask() {
       GetXMLElementText({"Afterburner", "SMASH", "SMASH_particles_file"});
   std::string smash_decays_list =
       GetXMLElementText({"Afterburner", "SMASH", "SMASH_decaymodes_file"});
-
+  // output path is just dummy here, because no output from SMASH is foreseen
+  std::filesystem::path output_path("./smash_output");
   // do not store tabulation, which is achieved by an empty tabulations path
-  std::string tabulations_path("");
+  std::string tabulations_path("./smash_tabulations");
+  const std::string smash_version(SMASH_VERSION);
 
   auto config = smash::setup_config_and_logging(
       smash_config_file, smash_hadron_list, smash_decays_list);
 
   // Take care of the random seed. This will make SMASH results reproducible.
   auto random_seed = (*GetMt19937Generator())();
-  config.set_value({"General", "Randomseed"}, random_seed);
+  config.set_value(smash::InputKeys::gen_randomseed, random_seed);
 
   // Read in the rest of configuration
   end_time_ = GetXMLElementDouble({"Afterburner", "SMASH", "end_time"});
-  config.set_value({"General", "End_Time"}, end_time_);
+  config.set_value(smash::InputKeys::gen_endTime, end_time_);
 
   JSINFO << "End time until which SMASH propagates is " << end_time_ << " fm/c";
   only_final_decays_ =
@@ -62,15 +65,20 @@ void SmashWrapper::InitTask() {
     JSINFO << "SMASH will only perform resonance decays, no propagation";
   }
 
-  const std::string smash_version(SMASH_VERSION);
-  smash::initialize_particles_decays_and_tabulations(config, smash_version,
-                                                     tabulations_path);
+  // Check if the tabulations directory exists, if not initialize particles and
+  // decays
+  if (!std::filesystem::exists(tabulations_path)) {
+    smash::initialize_particles_decays_and_tabulations(config, smash_version,
+                                                       tabulations_path);
+  }
+  const double delta_t_sm =
+      GetXMLElementDouble({"Afterburner", "SMASH", "Delta_Time"});
+  config.set_value(smash::InputKeys::gen_deltaTime, delta_t_sm);
 
   JSINFO << "Seting up SMASH Experiment object";
-  // output path is just dummy here, because no output from SMASH is foreseen
-  std::filesystem::path output_path("./smash_output");
   smash_experiment_ =
       make_shared<smash::Experiment<AfterburnerModus>>(config, output_path);
+  config.clear();
   JSINFO << "Finish initializing SMASH";
 }
 
