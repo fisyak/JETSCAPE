@@ -22,9 +22,9 @@ endif()
 message(STATUS "Looking for SMASH ...")
 
 set(SMASH_INCLUDE_DIR
-    $ENV{SMASH_DIR}/3rdparty/Cuba-4.2.1 $ENV{SMASH_DIR}/3rdparty/einhard
-    $ENV{SMASH_DIR}/3rdparty/yaml-cpp-0.7.0/include
-    $ENV{SMASH_DIR}/build/src/include $ENV{SMASH_DIR}/src/include)
+  $ENV{SMASH_DIR}/3rdparty/Cuba-4.2.2 $ENV{SMASH_DIR}/3rdparty/einhard
+  $ENV{SMASH_DIR}/3rdparty/yaml-cpp-0.8.0/include
+  $ENV{SMASH_DIR}/build/src/include $ENV{SMASH_DIR}/src/include)
 message(STATUS "SMASH includes found in ${SMASH_INCLUDE_DIR}")
 
 find_library(
@@ -38,11 +38,11 @@ find_library(
 find_library(
   CPPYAML_LIBRARY
   NAMES yaml-cpp
-  PATHS $ENV{SMASH_DIR}/build/3rdparty/yaml-cpp-0.7.0)
+  PATHS $ENV{SMASH_DIR}/build/3rdparty/yaml-cpp-0.8.0)
 find_library(
   INTEGRATION_LIBRARY
   NAMES cuhre
-  PATHS $ENV{SMASH_DIR}/build/3rdparty/Cuba-4.2.1/src/cuhre)
+  PATHS $ENV{SMASH_DIR}/build/3rdparty/Cuba-4.2.2/src/cuhre)
 set(SMASH_LIBRARIES
     ${EINHARD_LIBRARY} ${CPPYAML_LIBRARY} ${SMASH_PYTHIA_LIBRARY}
     ${SMASH_LIBRARY} ${INTEGRATION_LIBRARY})
