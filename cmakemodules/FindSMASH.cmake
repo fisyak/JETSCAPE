@@ -22,9 +22,9 @@ endif()
 message(STATUS "Looking for SMASH ...")
 
 set(SMASH_INCLUDE_DIR
-  $ENV{SMASH_DIR}/3rdparty/Cuba-4.2.2 $ENV{SMASH_DIR}/3rdparty/einhard
-  $ENV{SMASH_DIR}/3rdparty/yaml-cpp-0.8.0/include
-  $ENV{SMASH_DIR}/build/src/include $ENV{SMASH_DIR}/src/include)
+    $ENV{SMASH_DIR}/3rdparty/Cuba-4.2.2 $ENV{SMASH_DIR}/3rdparty/einhard
+    $ENV{SMASH_DIR}/3rdparty/yaml-cpp-0.8.0/include
+    $ENV{SMASH_DIR}/build/src/include $ENV{SMASH_DIR}/src/include)
 message(STATUS "SMASH includes found in ${SMASH_INCLUDE_DIR}")
 
 find_library(
