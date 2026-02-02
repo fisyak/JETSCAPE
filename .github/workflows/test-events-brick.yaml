@@ -4,15 +4,13 @@ on:
   pull_request:
     branches:
       - main
-      - JETSCAPE-4.0-RC
-      - parallel_surfacefinder_new_cornelius_rc
-      - latessa/rMatter_test
+      - JETSCAPE-4.0.1-RC
+      - prep_4.0.1_smash
   push:
     branches:
       - main
-      - JETSCAPE-4.0-RC
-      - parallel_surfacefinder_new_cornelius_rc
-      - latessa/rMatter_test
+      - JETSCAPE-4.0.1-RC
+      - prep_4.0.1_smash
 env:
   REPO_NAME: ${{ github.event.repository.name }}
 
@@ -22,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: jetscape/base:v1.11
+      image: jetscape/base:v1.13
       options: --user root
 
     steps:
@@ -49,7 +47,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: JETSCAPE/TEST-EXAMPLES
-        ref: main
+        ref: jetscape-4.0.1
         path: TEST-EXAMPLES
 
     - name: Run Brick Matter Lbt tests

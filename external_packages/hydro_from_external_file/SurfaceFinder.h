@@ -9,6 +9,7 @@
 #include "./Hydroinfo_MUSIC.h"
 #include "./ParameterReader.h"
 
+#include <array>
 #include <fstream>
 
 // using namespace std;
