@@ -15,12 +15,16 @@ env:
 
 jobs:
   build:
-    name: external packages
+    name: external packages (${{ matrix.arch }})
     runs-on: ubuntu-latest
-    
+
+    strategy:
+      matrix:
+        arch: [amd64, arm64]
+
     container:
-      image: jetscape/base:v1.13
-      options: --user root
+      image: jetscape/base:v2.0
+      options: --user root --platform=linux/${{ matrix.arch }}
       
     steps:
       
