@@ -16,61 +16,64 @@ env:
 jobs:
   build:
     name: external packages (${{ matrix.arch }})
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        arch: [amd64, arm64]
+        include:
+          - arch: amd64
+            runs-on: ubuntu-24.04
+          - arch: arm64
+            runs-on: ubuntu-24.04-arm
+
+    runs-on: ${{ matrix.runs-on }}
 
     container:
       image: jetscape/base:v2.0
-      options: --user root --platform=linux/${{ matrix.arch }}
-      
+      options: --user root
+
     steps:
-      
-    - name: Checkout Repository
-      uses: actions/checkout@v4
-      with:
-        path: ${{ github.event.repository.name }}
-        
-    - name: Download MUSIC
-      run: |
-        cd ${GITHUB_WORKSPACE}/${REPO_NAME}/external_packages
-        ./get_music.sh
-    
-    - name: Download ISS
-      run: |
-        cd ${GITHUB_WORKSPACE}/${REPO_NAME}/external_packages
-        ./get_iSS.sh
-    
-    - name: Download FREESTREAM
-      run: |
-        cd ${GITHUB_WORKSPACE}/${REPO_NAME}/external_packages
-        ./get_freestream-milne.sh
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          path: ${{ github.event.repository.name }}
 
-    - name: Download IPGLASMA
-      run: |
-        cd ${GITHUB_WORKSPACE}/${REPO_NAME}/external_packages
-        ./get_ipglasma.sh
+      - name: Download MUSIC
+        run: |
+          cd ${GITHUB_WORKSPACE}/${REPO_NAME}/external_packages
+          ./get_music.sh
 
-    - name: Download SMASH
-      run: |
-        cd ${GITHUB_WORKSPACE}/${REPO_NAME}/external_packages
-        ./get_smash.sh
+      - name: Download ISS
+        run: |
+          cd ${GITHUB_WORKSPACE}/${REPO_NAME}/external_packages
+          ./get_iSS.sh
 
-    - name: Build Application
-      run: |
-        cd ${GITHUB_WORKSPACE}/${REPO_NAME}
-        mkdir build
-        cd build
-        export SMASH_DIR="${GITHUB_WORKSPACE}/${REPO_NAME}/external_packages/smash/smash_code"
-        cmake .. -DUSE_MUSIC=ON -DUSE_ISS=ON -DUSE_FREESTREAM=ON -DUSE_SMASH=ON -DUSE_IPGLASMA=ON
-        make -j2
+      - name: Download FREESTREAM
+        run: |
+          cd ${GITHUB_WORKSPACE}/${REPO_NAME}/external_packages
+          ./get_freestream-milne.sh
 
-    - name: Run Unit Tests
-      run: |
-        cd ${GITHUB_WORKSPACE}/${REPO_NAME}/build/examples/unittests
-        ./causal_liquifier
-        ./fluid_dynamics
-        ./linear_interpolation
-        ./ThermPtnSampler
+      - name: Download IPGLASMA
+        run: |
+          cd ${GITHUB_WORKSPACE}/${REPO_NAME}/external_packages
+          ./get_ipglasma.sh
+
+      - name: Download SMASH
+        run: |
+          cd ${GITHUB_WORKSPACE}/${REPO_NAME}/external_packages
+          ./get_smash.sh
+
+      - name: Build Application
+        run: |
+          cd ${GITHUB_WORKSPACE}/${REPO_NAME}
+          mkdir build
+          cd build
+          export SMASH_DIR="${GITHUB_WORKSPACE}/${REPO_NAME}/external_packages/smash/smash_code"
+          cmake .. -DUSE_MUSIC=ON -DUSE_ISS=ON -DUSE_FREESTREAM=ON -DUSE_SMASH=ON -DUSE_IPGLASMA=ON
+          make -j2
+
+      - name: Run Unit Tests
+        run: |
+          cd ${GITHUB_WORKSPACE}/${REPO_NAME}/build/examples/unittests
+          ./causal_liquifier
+          ./fluid_dynamics
+          ./linear_interpolation
+          ./ThermPtnSampler
